@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import DAO.ClienteDAO;
 import view.cadastros.ClienteCadastro;
-import view.mensagens.MensagemExcluir;
+
 import bean.Cliente;
 import javax.swing.JButton;
 import javax.swing.RowFilter;
@@ -22,7 +22,8 @@ public class Clientes extends javax.swing.JFrame {
         AtualizarPagina();    
        
     }
-
+    
+   
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -192,7 +193,7 @@ public class Clientes extends javax.swing.JFrame {
         int linha = tblClientes.getSelectedRow();
         
         //2) se nao tiver nenhuma linha , avisa o usuário
-        if (linha<1){
+        if (linha<0){
             JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir!");
         }else{
         
@@ -263,7 +264,7 @@ public class Clientes extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
-    
+       
     
     
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -282,6 +283,7 @@ public class Clientes extends javax.swing.JFrame {
 
         ClienteCadastro telaCadastro = new ClienteCadastro ();
         
+       telaCadastro.setClienteId(cliente.getId_cliente());
         telaCadastro.preencherCampos(cliente);
         dao.excluir(id);
         telaCadastro.setVisible(true);

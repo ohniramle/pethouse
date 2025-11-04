@@ -1,6 +1,6 @@
 
 package view;
-import view.mensagens.MensagemExcluir;
+
 import view.cadastros.AgendamentoCadastro;
 
 public class Agendamento extends javax.swing.JFrame {
@@ -168,8 +168,7 @@ public class Agendamento extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        MensagemExcluir msg = new MensagemExcluir(); //instancia o objeto da tela
-        msg.setVisible(true); //o torna visivel
+       
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 

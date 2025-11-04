@@ -10,7 +10,8 @@ import view.Clientes;
 
 
 public class ClienteCadastro extends javax.swing.JFrame {
-
+    //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserido um novo no banco
+    private Integer clienteId = null;
     
     public ClienteCadastro() {
         initComponents();
@@ -275,6 +276,13 @@ public class ClienteCadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCPFActionPerformed
 
+    public void setClienteId(Integer id) {
+    this.clienteId = id;
+    }
+
+    public Integer getClienteId() {
+    return this.clienteId;
+    }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
         try{
@@ -290,16 +298,33 @@ public class ClienteCadastro extends javax.swing.JFrame {
             cliente.setTelefone(txtTelefone.getText());
             
             ClienteDAO dao = new ClienteDAO();
-            dao.inserir(cliente);
+            if (clienteId == null) {
+                dao.inserir(cliente);  // Novo cliente
+                 JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
+                 txtCPF.setText("");
+                 txtNome.setText("");
+                 txtEmail.setText("");
+                 txtDataNascimento.setText("");
+                 txtCEP.setText("");
+                 txtEndereco.setText("");
+                 txtTelefone.setText("");
+            } else {
+                cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
+                dao.atualizar(cliente);    // Atualiza no banco
+                 dao.inserir(cliente); 
+                JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
+                 txtCPF.setText("");
+                 txtNome.setText("");
+                 txtEmail.setText("");
+                 txtDataNascimento.setText("");
+                 txtCEP.setText("");
+                 txtEndereco.setText("");
+                 txtTelefone.setText("");
+                
+            }   
            
-            JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
-            txtCPF.setText("");
-            txtNome.setText("");
-            txtEmail.setText("");
-            txtDataNascimento.setText("");
-            txtCEP.setText("");
-            txtEndereco.setText("");
-            txtTelefone.setText("");
+           
+      
             
         }catch(Exception e){
            e.printStackTrace();

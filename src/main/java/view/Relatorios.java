@@ -1,6 +1,6 @@
 
 package view;
-import view.mensagens.MensagemExcluir;
+
 
 public class Relatorios extends javax.swing.JFrame {
 
@@ -160,8 +160,7 @@ public class Relatorios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        MensagemExcluir msg = new MensagemExcluir();
-        msg.setVisible(true);
+       
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 

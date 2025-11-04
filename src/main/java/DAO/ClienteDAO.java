@@ -23,10 +23,33 @@ public class ClienteDAO {
         stmt.executeUpdate();
         con.close();
            
-       
-   
-
+     
     }
+    
+    public void atualizar(Cliente cliente) {
+    String sql = "UPDATE clientes SET cpf = ?, nome = ?, email = ?, data_nascimento = ?, sexo = ?, cep = ?, endereco = ?, telefone = ? WHERE id = ?";
+    
+    try (Connection conn = ConnectionFactory.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+        stmt.setString(1, cliente.getCPF());
+        stmt.setString(2, cliente.getNome());
+        stmt.setString(3, cliente.getEmail());
+        stmt.setString(4, cliente.getDataNascimento());
+        stmt.setString(5, cliente.getSexo());
+        stmt.setString(6, cliente.getCEP());
+        stmt.setString(7, cliente.getEndereco());
+        stmt.setString(8, cliente.getTelefone());
+        stmt.setInt(9, cliente.getId_cliente());
+        
+        stmt.executeUpdate();
+        
+        
+    } catch (SQLException e) {
+        
+        e.printStackTrace();
+    }
+}
     //Lista que lista todos os clientes
     public List<Cliente> listarTodos() throws Exception {  //método de listar clientes na tabela
       List<Cliente> ListaCliente = new ArrayList<>(); //Cria lista de clientes para armazenar no ArrayList
@@ -103,7 +126,7 @@ public class ClienteDAO {
            //fecha a conexão
            stmt.close();
            con.close();
-           System.out.println("Excluído com sucesso");
+           
        }catch(Exception e){
            e.printStackTrace();
        }

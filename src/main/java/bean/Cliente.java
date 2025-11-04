@@ -1,7 +1,7 @@
 
 package bean;
 
-import java.sql.Date;
+
 
 public class Cliente {
     private int id_cliente;

@@ -1,6 +1,6 @@
 
 package view;
-import view.mensagens.MensagemExcluir;
+
 
 public class Produtos extends javax.swing.JFrame {
 
@@ -28,7 +28,6 @@ public class Produtos extends javax.swing.JFrame {
         btnAdicionar = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -124,8 +123,6 @@ public class Produtos extends javax.swing.JFrame {
 
         btnPesquisar.setText("Pesquisar");
 
-        jLabel2.setText("Pesquise:");
-
         jLabel3.setText("Pesquise:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -153,11 +150,6 @@ public class Produtos extends javax.swing.JFrame {
                                 .addComponent(btnPesquisar))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(41, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(262, 262, 262)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(262, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,11 +168,6 @@ public class Produtos extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnAdicionar))
                 .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(197, 197, 197)
-                    .addComponent(jLabel2)
-                    .addContainerGap(197, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel2);
@@ -197,8 +184,7 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        MensagemExcluir msg = new MensagemExcluir();
-        msg.setVisible(true);
+       
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -512,7 +498,6 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
