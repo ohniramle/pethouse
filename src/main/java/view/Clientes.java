@@ -187,7 +187,7 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
+        //DefaultTableModel tabelaCliente = (DefaultTableModel) tblClientes.getModel();
         //1) pega a linha selecionada
         int linha = tblClientes.getSelectedRow();
         
@@ -201,7 +201,7 @@ public class Clientes extends javax.swing.JFrame {
                         JOptionPane.YES_NO_OPTION);
             if(confirmacao == JOptionPane.YES_OPTION){
                 //4)Pega  o id  do cliente  na tabela
-                DefaultTableModel tabelaCliente = (DefaultTableModel) tblClientes.getModel();
+               DefaultTableModel tabelaCliente = (DefaultTableModel) tblClientes.getModel();
                 int id  = Integer.parseInt(tabelaCliente.getValueAt(linha,0).toString());
                 //5 Chama o DAO para excluir no banco 
                 ClienteDAO dao = new ClienteDAO();
@@ -267,9 +267,9 @@ public class Clientes extends javax.swing.JFrame {
     
     
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       DefaultTableModel tabelaCliente = (DefaultTableModel) tblClientes.getModel();
+       DefaultTableModel tblCliente = (DefaultTableModel) tblClientes.getModel();
        int linha  = tblClientes.getSelectedRow();
-       if(linha<1){
+       if(linha<0){
            JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
        }
        else{
