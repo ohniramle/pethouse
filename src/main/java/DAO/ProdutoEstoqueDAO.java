@@ -7,7 +7,7 @@ import java.sql.*;
 
 
 public class ProdutoEstoqueDAO {
-    /*public List<ProdutoEstoqueDAO> listarComValorTotal() {
+    public List<ProdutoEstoqueDAO> listarComValorTotal() {
     List<ProdutoEstoqueDAO> lista = new ArrayList<>();
 
     String sql = "SELECT p.id, p.nome, p.preco_unitario, e.quantidade, " +
@@ -33,5 +33,5 @@ public class ProdutoEstoqueDAO {
         e.printStackTrace();
     }
     return lista;
-}*/
+}
 }
