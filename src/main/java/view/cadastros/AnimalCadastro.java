@@ -301,7 +301,7 @@ public class AnimalCadastro extends javax.swing.JFrame {
     //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
         public void preencherCampos (Cliente cliente){
             if(cliente!=null){
-                txtCPF.setText(String.valueOf(cliente.getCPF()));
+                  txtCPF.setText(String.valueOf(cliente.getCPF()));
                 txtNome.setText(String.valueOf(cliente.getNome()));
                 txtEmail.setText(String.valueOf(cliente.getEmail()));
                 txtDataNascimento.setText(String.valueOf(cliente.getDataNascimento()));

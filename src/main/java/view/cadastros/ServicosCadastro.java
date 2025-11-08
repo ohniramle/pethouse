@@ -9,11 +9,11 @@ import javax.swing.table.DefaultTableModel;
 import view.Clientes;
 
 
-public class FornecedorCadastro extends javax.swing.JFrame {
+public class ServicosCadastro extends javax.swing.JFrame {
     //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserido um novo no banco
     private Integer clienteId = null;
     
-    public FornecedorCadastro() {
+    public ServicosCadastro() {
         initComponents();
         setLocationRelativeTo(null);
         
@@ -32,7 +32,9 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtCNPJ = new javax.swing.JTextField();
+        txtCPF = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtDataNascimento = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -47,6 +49,8 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         txtCEP = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         txtEndereco = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        cmbSexo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login");
@@ -62,7 +66,7 @@ public class FornecedorCadastro extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(51, 102, 255));
         jLabel1.setFont(new java.awt.Font("Arial", 0, 33)); // NOI18N
-        jLabel1.setText("Fornecedor");
+        jLabel1.setText("Clientes");
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -101,19 +105,24 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("CNPJ");
+        jLabel2.setText("CPF:");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Email:");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        txtCNPJ.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCNPJ.addActionListener(new java.awt.event.ActionListener() {
+        txtCPF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCNPJActionPerformed(evt);
+                txtCPFActionPerformed(evt);
             }
         });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setText("Data de Nascimento:");
+
+        txtDataNascimento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Telefone:");
@@ -135,13 +144,14 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         txtTelefone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtCEP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCEP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCEPActionPerformed(evt);
-            }
-        });
 
         txtEndereco.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel10.setText("Sexo:");
+
+        cmbSexo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino", "Outro", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -152,10 +162,19 @@ public class FornecedorCadastro extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,7 +182,7 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(231, 231, 231)
                         .addComponent(jLabel8)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
             .addComponent(jSeparator5)
             .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -174,30 +193,25 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(241, 241, 241)
-                                .addComponent(jSeparator2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addGap(30, 30, 30)
+                        .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(235, 235, 235)
                 .addComponent(btnCadastrar)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +222,7 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -217,8 +231,8 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,12 +242,18 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel7)
+                            .addComponent(txtCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10))
+                    .addComponent(cmbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCadastrar)
@@ -245,70 +265,16 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCNPJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCNPJActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCNPJActionPerformed
-
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-
-        try{
-
-            Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
-            cliente.setCPF(txtCNPJ.getText());
-            cliente.setNome(txtNome.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setDataNascimento(txtDataNascimento.getText());
-            cliente.setSexo(cmbSexo.getSelectedItem().toString());
-            cliente.setCEP(txtCEP.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setTelefone(txtTelefone.getText());
-
-            ClienteDAO dao = new ClienteDAO();
-            if (clienteId == null) {
-                dao.inserir(cliente);  // Novo cliente
-                JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
-                txtCNPJ.setText("");
-                txtNome.setText("");
-                txtEmail.setText("");
-                txtDataNascimento.setText("");
-                txtCEP.setText("");
-                txtEndereco.setText("");
-                txtTelefone.setText("");
-            } else {
-                cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
-                dao.atualizar(cliente);    // Atualiza no banco
-                dao.inserir(cliente);
-                JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
-                txtCNPJ.setText("");
-                txtNome.setText("");
-                txtEmail.setText("");
-                txtDataNascimento.setText("");
-                txtCEP.setText("");
-                txtEndereco.setText("");
-                txtTelefone.setText("");
-
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
-        }
-
-        Clientes c = new Clientes();
-        c.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCadastrarActionPerformed
-
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         Clientes cl = new Clientes(); //instancia tela inicial como objeto para uso
         cl.setVisible(true); // Isso quer dizer que a tela inicial de Cliente é chamada para ficar visivel novamente
         this.dispose(); //fecha ClienteCadastro
-
+       
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    private void txtCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCEPActionPerformed
+    private void txtCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCPFActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCEPActionPerformed
+    }//GEN-LAST:event_txtCPFActionPerformed
 
     public void setClienteId(Integer id) {
     this.clienteId = id;
@@ -316,11 +282,64 @@ public class FornecedorCadastro extends javax.swing.JFrame {
 
     public Integer getClienteId() {
     return this.clienteId;
-    }    
+    }
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        
+        try{
+            
+            Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
+            cliente.setCPF(txtCPF.getText());
+            cliente.setNome(txtNome.getText());
+            cliente.setEmail(txtEmail.getText());
+            cliente.setDataNascimento(txtDataNascimento.getText());
+            cliente.setSexo(cmbSexo.getSelectedItem().toString());
+            cliente.setCEP(txtCEP.getText());
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            
+            ClienteDAO dao = new ClienteDAO();
+            if (clienteId == null) {
+                dao.inserir(cliente);  // Novo cliente
+                 JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
+                 txtCPF.setText("");
+                 txtNome.setText("");
+                 txtEmail.setText("");
+                 txtDataNascimento.setText("");
+                 txtCEP.setText("");
+                 txtEndereco.setText("");
+                 txtTelefone.setText("");
+            } else {
+                cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
+                dao.atualizar(cliente);    // Atualiza no banco
+                 dao.inserir(cliente); 
+                JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
+                 txtCPF.setText("");
+                 txtNome.setText("");
+                 txtEmail.setText("");
+                 txtDataNascimento.setText("");
+                 txtCEP.setText("");
+                 txtEndereco.setText("");
+                 txtTelefone.setText("");
+                
+            }   
+           
+           
+      
+            
+        }catch(Exception e){
+           e.printStackTrace();
+           JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+        
+        Clientes c = new Clientes();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+    
     //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
         public void preencherCampos (Cliente cliente){
             if(cliente!=null){
-                txtCNPJ.setText(String.valueOf(cliente.getCPF()));
+                txtCPF.setText(String.valueOf(cliente.getCPF()));
                 txtNome.setText(String.valueOf(cliente.getNome()));
                 txtEmail.setText(String.valueOf(cliente.getEmail()));
                 txtDataNascimento.setText(String.valueOf(cliente.getDataNascimento()));
@@ -349,13 +368,13 @@ public class FornecedorCadastro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FornecedorCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServicosCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FornecedorCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServicosCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FornecedorCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServicosCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FornecedorCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServicosCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -617,7 +636,7 @@ public class FornecedorCadastro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FornecedorCadastro().setVisible(true);
+                new ServicosCadastro().setVisible(true);
             }
         });
     }
@@ -625,10 +644,13 @@ public class FornecedorCadastro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JComboBox<String> cmbSexo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -641,7 +663,8 @@ public class FornecedorCadastro extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTextField txtCEP;
-    private javax.swing.JTextField txtCNPJ;
+    private javax.swing.JTextField txtCPF;
+    private javax.swing.JTextField txtDataNascimento;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
