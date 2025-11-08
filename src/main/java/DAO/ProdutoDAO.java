@@ -112,28 +112,8 @@ public class ProdutoDAO {
            e.printStackTrace();
        }
    }
-   public double calcularValorTotalDoProduto(int idProduto) {
-    String sql = "SELECT (p.preco_unitario * e.quantidade) AS valor_total FROM produtos p  INNER JOIN estoque e ON p.id = e.id_produto WHERE p.id = ? ";
-
-        double valorTotal = 0;
-
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idProduto);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                valorTotal = rs.getDouble("valor_total");
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao calcular valor total: " + e.getMessage());
-        }
-
-        return valorTotal;
-    }
    
+  
 }
 
 
