@@ -70,7 +70,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4.setText("Bem vindo (a)!");
 
         cmbTelaInicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbTelaInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agendamento", "Animal", "Cliente", "Compra", "Estoque", "Fornecedor", "Funcionários", "Relatórios", "Serviços", "Vendas" }));
+        cmbTelaInicial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agendamento", "Animal", "Cliente", "Compra", "Estoque", "Fornecedor", "Funcionários", "Produtos", "Relatórios", "Serviços", "Vendas" }));
         cmbTelaInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbTelaInicialActionPerformed(evt);
@@ -194,6 +194,11 @@ public class TelaInicial extends javax.swing.JFrame {
                  func.setVisible(true);
                  this.setVisible(false);
             break;
+            case "Produtos":
+                 Produtos produtos = new Produtos();
+                 produtos.setVisible(true);
+                 this.setVisible(false);
+                 break;
              case "Relatórios":
                  this.setVisible(false);
             break;
