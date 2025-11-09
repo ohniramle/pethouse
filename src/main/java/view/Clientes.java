@@ -227,6 +227,7 @@ public class Clientes extends javax.swing.JFrame {
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         ClienteCadastro clienteNovo = new ClienteCadastro();
         clienteNovo.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     //atualiza tabela de clientes a cada uso
