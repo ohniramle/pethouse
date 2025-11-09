@@ -5,6 +5,7 @@ import conexao.ConnectionFactory;
 import java.util.*;
 import java.sql.*;
 import bean.Cliente;
+import javax.swing.JOptionPane;
 public class ClienteDAO {
     
     public void inserir(Cliente c) throws SQLException{ //método de Inserir clientes na tabela
@@ -52,26 +53,26 @@ public class ClienteDAO {
 }
     //Lista que lista todos os clientes
     public List<Cliente> listarTodos() throws Exception {  //método de listar clientes na tabela
-      List<Cliente> ListaCliente = new ArrayList<>(); //Cria lista de clientes para armazenar no ArrayList
+      List<Cliente> ListaCliente = new ArrayList<>(); //cria lista de clientes para armazenar no ArrayList
       String sql = "SELECT id_cliente,cpf,nome,email,data_nascimento,sexo,cep,endereco,telefone FROM cliente ORDER BY id_cliente";
       
-      try(Connection c = ConnectionFactory.getConnection(); //conexão com banco de dados utilizando a classe ConnectionFactory
-          PreparedStatement stmt = c.prepareStatement(sql);
+      try(Connection co = ConnectionFactory.getConnection(); //conexão com banco de dados utilizando a classe ConnectionFactory
+          PreparedStatement stmt = co.prepareStatement(sql);
           ResultSet rs = stmt.executeQuery()){
           
           while(rs.next()){
-              Cliente cliente = new Cliente();
-                cliente.setId_cliente(rs.getInt("id_cliente"));
-                cliente.setCPF(rs.getString("cpf"));
-                cliente.setNome(rs.getString("nome"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setDataNascimento(rs.getString("data_nascimento"));
-                cliente.setSexo(rs.getString("sexo"));
-                cliente.setCEP(rs.getString("cep"));
-                cliente.setEndereco(rs.getString("endereco"));
-                cliente.setTelefone(rs.getString("telefone"));
+              Cliente c = new Cliente();
+                c.setId_cliente(rs.getInt("id_cliente"));
+                c.setCPF(rs.getString("cpf"));
+                c.setNome(rs.getString("nome"));
+                c.setEmail(rs.getString("email"));
+                c.setDataNascimento(rs.getString("data_nascimento"));
+                c.setSexo(rs.getString("sexo"));
+                c.setCEP(rs.getString("cep"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setTelefone(rs.getString("telefone"));
                 
-                ListaCliente.add(cliente);
+                ListaCliente.add(c);
           }
       }
       return ListaCliente;
@@ -131,5 +132,40 @@ public class ClienteDAO {
            e.printStackTrace();
        }
    }
+   public Cliente buscarPorNome(String nome) {
+    Cliente cliente = null;
+    String sql = "SELECT id_cliente, nome, cpf FROM cliente WHERE nome = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId_cliente(rs.getInt("idcliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCPF(rs.getString("cpf"));
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cliente: " + e.getMessage());
+        }
+        return cliente;
+        }
+        public int buscarIdPorNome(String nomeCliente) throws Exception {
+        Connection con = ConnectionFactory.getConnection();
+        String sql = "SELECT id_cliente FROM cliente WHERE nome = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, nomeCliente);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt("id_cliente");
+        } else {
+            throw new Exception("Cliente não encontrado: " + nomeCliente);
+        }
+    }
    
 }

@@ -113,6 +113,41 @@ public class ProdutoDAO {
            e.printStackTrace();
        }
    }
+    // método responsável por inserir um produto no banco de dados
+    // e retornar o ID gerado automaticamente (chave primária).
+    public int inserirERetornarID(Produto p) throws SQLException {
+    // comando SQL para inserir os dados do produto.
+    // os valores serão substituídos pelos parâmetros definidos no PreparedStatement.
+    String sql = "INSERT INTO produto (nome, preco, descricao, id_fornecedor) VALUES (?, ?, ?, ?)";
+    
+    // variável para armazenar o ID gerado após a inserção.
+    int idGerado = -1;
+
+    // bloco para garantir que a conexão seja fechada automaticamente
+    try (Connection con = ConnectionFactory.getConnection();
+         // o parâmetro "Statement.RETURN_GENERATED_KEYS" permite recuperar o ID gerado pelo banco.
+         PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        // substitui os parâmetros da query pelos valores vindos do objeto Produto
+        stmt.setString(1, p.getNome());          // define o nome do produto
+        stmt.setDouble(2, p.getPreco());         // define o preço unitário
+        stmt.setString(3, p.getDescricao());     // define a descrição do produto
+        stmt.setInt(4, p.getFornecedor());       // define o ID do fornecedor
+
+        // executa o comando de inserção.
+        stmt.executeUpdate();
+
+        // recupera o ID gerado automaticamente pelo banco (chave primária).
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            idGerado = rs.getInt(1); // pega o primeiro valor retornado (o ID)
+        }
+    }
+
+    // retorna o ID gerado para que possa ser usado em outras operações (compra, estoque, etc).
+    return idGerado;
+    }
+
    
   
 }

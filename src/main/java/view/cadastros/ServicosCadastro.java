@@ -178,52 +178,14 @@ public class ServicosCadastro extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
-        try{
+        
 
             Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
-            cliente.setCPF(txtCPF.getText());
+            
             cliente.setNome(txtNome.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setDataNascimento(txtDataNascimento.getText());
-            cliente.setSexo(cmbSexo.getSelectedItem().toString());
-            cliente.setCEP(txtCEP.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setTelefone(txtTelefone.getText());
+ 
 
-            ClienteDAO dao = new ClienteDAO();
-            if (clienteId == null) {
-                dao.inserir(cliente);  // Novo cliente
-                JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
-                txtCPF.setText("");
-                txtNome.setText("");
-                txtEmail.setText("");
-                txtDataNascimento.setText("");
-                txtCEP.setText("");
-                txtEndereco.setText("");
-                txtTelefone.setText("");
-            } else {
-                cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
-                dao.atualizar(cliente);    // Atualiza no banco
-                dao.inserir(cliente);
-                JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
-                txtCPF.setText("");
-                txtNome.setText("");
-                txtEmail.setText("");
-                txtDataNascimento.setText("");
-                txtCEP.setText("");
-                txtEndereco.setText("");
-                txtTelefone.setText("");
-
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
-        }
-
-        Clientes c = new Clientes();
-        c.setVisible(true);
-        this.dispose();
+           
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -245,17 +207,7 @@ public class ServicosCadastro extends javax.swing.JFrame {
     }    
     //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
         public void preencherCampos (Cliente cliente){
-            if(cliente!=null){
-                txtCPF.setText(String.valueOf(cliente.getCPF()));
-                txtNome.setText(String.valueOf(cliente.getNome()));
-                txtEmail.setText(String.valueOf(cliente.getEmail()));
-                txtDataNascimento.setText(String.valueOf(cliente.getDataNascimento()));
-                cmbSexo.setSelectedItem(cliente.getSexo());
-                txtCEP.setText(String.valueOf(cliente.getCEP()));
-                txtEndereco.setText(String.valueOf(cliente.getEndereco()));
-                txtTelefone.setText(String.valueOf(cliente.getTelefone()));
-                
-            }
+            
         }
         
     /**
