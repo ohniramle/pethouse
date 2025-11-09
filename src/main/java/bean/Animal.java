@@ -15,7 +15,7 @@ public class Animal {
      
     }
 
-    public Animal(int idAnimal, String nome, String dataNascimento, String sexo, double peso, String porte, int idCliente) {
+    public Animal(int idAnimal, String nome, String dataNascimento, String sexo, double peso, String porte, int idCliente,String especie) {
         this.idAnimal = idAnimal;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -23,6 +23,7 @@ public class Animal {
         this.peso = peso;
         this.porte = porte;
         this.idCliente = idCliente;
+        this.especie=especie;
     }
 
     public String getEspecie() {

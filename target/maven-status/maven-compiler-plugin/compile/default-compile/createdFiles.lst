@@ -6,6 +6,7 @@ view\cadastros\AgendamentoCadastro$2.class
 view\Produtos$1.class
 view\cadastros\FuncionarioCadastro.class
 view\Login$2.class
+bean\AnimalCliente.class
 view\Vendas$3.class
 view\Estoque$4.class
 DAO\ProdutoEstoqueDAO.class
@@ -65,6 +66,7 @@ view\Produtos.class
 view\cadastros\AnimalCadastro.class
 view\cadastros\FuncionarioCadastro$4.class
 view\Clientes$5.class
+DAO\AnimalClienteDAO.class
 view\cadastros\CompraDeProdutoCadastro$5.class
 view\Produtos$5.class
 view\cadastros\EstoqueCadastro$2.class
@@ -101,6 +103,7 @@ view\Fornecedores.class
 view\cadastros\AnimalCadastro$3.class
 view\cadastros\CompraDeProdutoCadastro$4.class
 view\cadastros\EstoqueCadastro.class
+view\Animais$5.class
 view\cadastros\ServicosCadastro$3.class
 view\Servicos$4.class
 view\cadastros\FuncionarioCadastro$5.class

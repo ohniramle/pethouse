@@ -15,7 +15,13 @@ public class Cliente {
     private String endereco;
     
 
+    
     public Cliente (){}; 
+
+    public Cliente(String CPF, String nome) {
+        this.CPF = CPF;
+        this.nome = nome;
+    }
     
     public Cliente( int id_cliente, String CPF, String nome, String email, String dataNascimento,String sexo, String CEP, String endereco , String telefone) {
         this.id_cliente= id_cliente;
@@ -105,10 +111,9 @@ public class Cliente {
     
     // para exibir o nome no ComboBox
     @Override
-    public String toString() {
-        return nome;
-    }
-    
+        public String toString() {
+            return nome;
+        }
     
     
 }

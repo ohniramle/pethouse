@@ -2,6 +2,7 @@
 package DAO;
 
 import bean.Animal;
+import bean.Cliente;
 import conexao.ConnectionFactory;
 import java.sql.*;
 import java.util.*;
@@ -39,33 +40,7 @@ public class AnimalDAO {
         }
     }
     
-    // Método para listar todos os animais
-    public List<Animal> listarTodos() {
-        List<Animal> lista = new ArrayList<>();
-        String sql = "SELECT * FROM animal";
-        
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            
-            while (rs.next()) {
-                Animal a = new Animal();
-                a.setIdAnimal(rs.getInt("id_animal"));
-                a.setNome(rs.getString("nome"));
-                a.setDataNascimento(rs.getString("data_nascimento"));
-                a.setSexo(rs.getString("sexo"));
-                a.setEspecie(rs.getString("especie"));
-                a.setPeso(rs.getDouble("peso"));
-                a.setPorte(rs.getString("porte"));
-                a.setIdCliente(rs.getInt("id_cliente"));
-                lista.add(a);
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
+    
     
     // Método para excluir um animal pelo ID
     public void excluir(int idAnimal) {
@@ -84,7 +59,43 @@ public class AnimalDAO {
         }
     }
     
-    // Método para buscar animais de um cliente específico
+    //método para buscar por ID o animal
+    public Animal buscarPorId(int id){
+       Animal animal = null;
+       try{
+           Connection con = ConnectionFactory.getConnection();
+           PreparedStatement stmt = con.prepareStatement("SELECT * FROM  animal WHERE id_animal= ?");
+           stmt.setInt(1,id); // Substitui o "?" pelo valor do parâmetro id recebido no método
+           ResultSet rs=stmt.executeQuery();
+           
+           //Preenche o objeto com os dados do banco
+           if(rs.next()){
+               animal = new Animal();
+               animal.setIdAnimal(rs.getInt("id_animal"));
+               
+               animal.setNome(rs.getString("nome"));
+               
+               animal.setDataNascimento(rs.getString("data_nascimento"));
+               animal.setSexo(rs.getString("sexo"));
+               animal.setEspecie(rs.getString("especie"));
+               animal.setPeso(rs.getDouble("peso"));
+               animal.setPorte(rs.getString("porte"));
+               animal.setIdCliente(rs.getInt("id_cliente"));
+               
+           }
+           //Fecha os recursos para evitar gasto de memória
+           rs.close();
+           stmt.close();
+           con.close();
+           
+       }catch(Exception e) {
+            e.printStackTrace(); //caso aconteça erro , imprime no console
+       }
+       //retorna o cliente encontrado (ou null para não encontrado)
+       return animal;
+   }
+    
+    // Método para buscar animais de um animal específico
     public List<Animal> listarPorCliente(int idCliente) {
         List<Animal> lista = new ArrayList<>();
         String sql = "SELECT * FROM animal WHERE id_cliente = ?";

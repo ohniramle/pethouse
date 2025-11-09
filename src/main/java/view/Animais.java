@@ -1,9 +1,17 @@
 
 package view;
 
+import DAO.AnimalClienteDAO;
+import DAO.AnimalDAO;
+
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import view.cadastros.AnimalCadastro;
+import bean.Animal;
+import bean.AnimalCliente;
 
 
 public class Animais extends javax.swing.JFrame {
@@ -12,6 +20,7 @@ public class Animais extends javax.swing.JFrame {
     public Animais() {
         initComponents();
         setLocationRelativeTo(null);
+        Atualizar();
         
     }
 
@@ -32,6 +41,7 @@ public class Animais extends javax.swing.JFrame {
         btnPesquisar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnAdicionar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login");
@@ -82,7 +92,7 @@ public class Animais extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "CPF Cliente", "Nome", "Nascimento", "Peso", "Porte"
+                "Animal", "Nome", "Dono", "Cpf"
             }
         ));
         jScrollPane1.setViewportView(tblAnimal);
@@ -95,6 +105,11 @@ public class Animais extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
 
@@ -106,6 +121,8 @@ public class Animais extends javax.swing.JFrame {
                 btnAdicionarActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Detalhes");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,7 +146,9 @@ public class Animais extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPesquisar))
+                                .addComponent(btnPesquisar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -141,7 +160,8 @@ public class Animais extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -156,9 +176,56 @@ public class Animais extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+    private void Atualizar(){
+         try{
+        AnimalClienteDAO ac =new AnimalClienteDAO(); //instancia a classe DAO
+        List<AnimalCliente> lista = ac.listarTodos(); //cria uma lista utilizando o método listarTodos do DAO
+       DefaultTableModel tabelaCliente = (DefaultTableModel) tblAnimal.getModel(); //instancia uma tabela referenciando a JTable na interface
+        tabelaCliente.setRowCount(0); // limpa linhas
         
+        for(AnimalCliente c: lista){ //for para percorrer a lista criada
+            tabelaCliente.addRow(new Object[] { //adiciona cada dado em suas linhas na tabela especificamente na ordem 
+            
+                c.getIdAnimal(),
+                c.getNomeAnimal(),
+                c.getNomeCliente(),
+                c.getCpfCliente()
+
+            });
+        }
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+    }
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+         
+        //1) pega a linha selecionada
+        int linha = tblAnimal.getSelectedRow();
+        
+        //2) se nao tiver nenhuma linha , avisa o usuário
+        if (linha<0){
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir!");
+        }else{
+        
+        //3) confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(this,"Tem certeza que deseja excluir esse Animal?","Confirmação",
+                        JOptionPane.YES_NO_OPTION); //confirmação sim ou não
+            if(confirmacao == JOptionPane.YES_OPTION){
+                //4)Pega  o id  do animal na tabela
+               DefaultTableModel tabelaAnimal = (DefaultTableModel) tblAnimal.getModel();
+                int id  = Integer.parseInt(tabelaAnimal.getValueAt(linha,0).toString());
+                //5 Chama o DAO para excluir no banco 
+                AnimalDAO dao = new AnimalDAO();
+                dao.excluir(id);
+
+                //6)remove também a linha que o cliente estava para limpar a tabela
+                tabelaAnimal.removeRow(linha);
+
+                JOptionPane.showMessageDialog(null,"Cliente excluído com sucesso");
+            }
+        }
 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -180,6 +247,30 @@ public class Animais extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        DefaultTableModel tblAnimall = (DefaultTableModel) tblAnimal.getModel(); //pega o modelo da tabela
+       int linha  = tblAnimal.getSelectedRow(); //guarda a linha selecionada da tabela na variavel inteira
+       if(linha<0){ 
+           //se a quantidade de linha for menor que zero ele manda a mensagem
+           JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
+       }
+       else{
+           //senão , guarda na variável id o valor do código do cliente 
+           int id = Integer.parseInt(tblAnimal.getValueAt(linha, 0).toString());
+       
+
+        //Usa o DAO para buscar o animal no banco de dados
+           AnimalDAO an = new AnimalDAO();
+           Animal animal =an.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o animal exato
+
+        AnimalCadastro telaCadastro = new AnimalCadastro (); //instancia a tela inicial
+        
+       telaCadastro.setAnimalId(animal.getIdAnimal()); //muda o valor da variável ID no método da tela de cadastro de animais pegando o valor do animal selecionado atual 
+       telaCadastro.preencherCampos(animal);//utiliza o método de preencher para todos os dados do animal irem para os TextFields
+        telaCadastro.setVisible(true);
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,6 +440,7 @@ public class Animais extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;

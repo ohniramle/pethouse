@@ -167,5 +167,25 @@ public class ClienteDAO {
             throw new Exception("Cliente não encontrado: " + nomeCliente);
         }
     }
+    
+        //listar Clientes pelo nome para a tabela animal
+    public List<Cliente> listarPorNome() {
+        List<Cliente> lista = new ArrayList<>();
+        String sql = "SELECT id_cliente, nome FROM cliente ORDER BY nome";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setId_cliente(rs.getInt("id_cliente"));
+                c.setNome(rs.getString("nome"));
+                lista.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
    
 }
