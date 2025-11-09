@@ -103,6 +103,11 @@ public class Cliente {
         this.email = email;
     }
     
+    // para exibir o nome no ComboBox
+    @Override
+    public String toString() {
+        return nome;
+    }
     
     
     

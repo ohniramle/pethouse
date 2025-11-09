@@ -1,6 +1,10 @@
 
 package view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import view.cadastros.AnimalCadastro;
+
 
 public class Animais extends javax.swing.JFrame {
 
@@ -27,6 +31,7 @@ public class Animais extends javax.swing.JFrame {
         txtPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnAdicionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login");
@@ -95,6 +100,13 @@ public class Animais extends javax.swing.JFrame {
 
         jLabel3.setText("Pesquise:");
 
+        btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -105,8 +117,10 @@ public class Animais extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(156, 156, 156)
                         .addComponent(btnExcluir)
-                        .addGap(63, 63, 63)
-                        .addComponent(btnEditar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAdicionar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,7 +147,8 @@ public class Animais extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar)
-                    .addComponent(btnExcluir))
+                    .addComponent(btnExcluir)
+                    .addComponent(btnAdicionar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -153,6 +168,18 @@ public class Animais extends javax.swing.JFrame {
         this.dispose(); //fecha Animais
 
     }//GEN-LAST:event_btnVoltarActionPerformed
+    //botão de adicionar um novo animal no sistema
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        AnimalCadastro a;
+        try {
+            a = new AnimalCadastro();
+            a.setVisible(true); //abre a tela de Cadastro de animal
+             this.dispose(); //fecha a tela atual de Animais
+        } catch (Exception ex) {
+            Logger.getLogger(Animais.class.getName()).log(Level.SEVERE, null, ex); //mensagem caso ocorra erro
+        }
+        
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -317,6 +344,7 @@ public class Animais extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;

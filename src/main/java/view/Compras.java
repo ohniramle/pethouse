@@ -1,6 +1,7 @@
 
 package view;
 import DAO.ProdutoDAO;
+import view.cadastros.CompraDeProdutoCadastro;
 
 public class Compras extends javax.swing.JFrame {
 
@@ -185,8 +186,12 @@ public class Compras extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        ProdutoDAO produto = new ProdutoDAO();
-        //produto.calcularValorTotalDoProduto();
+        
+        CompraDeProdutoCadastro p = new CompraDeProdutoCadastro();
+        p.setVisible(true);
+        this.dispose();
+        
+       
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     /**

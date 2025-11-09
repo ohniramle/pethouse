@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 view\Estoque$1.class
 view\TelaInicial$3.class
 bean\ProdutoEstoque.class
@@ -82,3 +83,5 @@ view\Compras$1.class
 view\Compras$4.class
 bean\Estoque.class
 view\Vendas$1.class
+=======
+>>>>>>> 8a1b4f8a912b683b5defa9f02b99da68e61052c1

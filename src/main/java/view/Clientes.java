@@ -229,6 +229,7 @@ public class Clientes extends javax.swing.JFrame {
         clienteNovo.setVisible(true);
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    //atualiza tabela de clientes a cada uso
     private void AtualizarPagina(){
           try{
         ClienteDAO dao = new ClienteDAO(); //instancia a classe DAO
@@ -266,26 +267,28 @@ public class Clientes extends javax.swing.JFrame {
 
        
     
-    
+   //botão de editar um cliente existente na tabela  
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       DefaultTableModel tblCliente = (DefaultTableModel) tblClientes.getModel();
-       int linha  = tblClientes.getSelectedRow();
-       if(linha<0){
+       DefaultTableModel tblCliente = (DefaultTableModel) tblClientes.getModel(); //pega o modelo da tabela
+       int linha  = tblClientes.getSelectedRow(); //guarda a linha selecionada da tabela na variavel inteira
+       if(linha<0){ 
+           //se a quantidade de linha for menor que zero ele manda a mensagem
            JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
        }
        else{
+           //senão , guarda na variável id o valor do código do cliente 
            int id = Integer.parseInt(tblClientes.getValueAt(linha, 0).toString());
        
 
         //Usa o DAO para buscar o cliente no banco de dados
         ClienteDAO dao = new ClienteDAO();
-        Cliente cliente  = dao.buscarPorId(id);
+        Cliente cliente  = dao.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o cliente exato
 
-        ClienteCadastro telaCadastro = new ClienteCadastro ();
+        ClienteCadastro telaCadastro = new ClienteCadastro (); //instancia a tela inicial
         
-       telaCadastro.setClienteId(cliente.getId_cliente());
-        telaCadastro.preencherCampos(cliente);
-        dao.excluir(id);
+       telaCadastro.setClienteId(cliente.getId_cliente()); //muda o valor da variável ID no método da tela de cadastro de clientes pegando o valor do cliente selecionado atual 
+        telaCadastro.preencherCampos(cliente); //utiliza o método de preencher para todos os dados do cliente irem para os TextFields
+        dao.excluir(id); //exclui para evitar duplicidade de clientes
         telaCadastro.setVisible(true);
        }
     }//GEN-LAST:event_btnEditarActionPerformed
