@@ -1,6 +1,11 @@
 
 package view.cadastros;
+import DAO.EstoqueDAO;
+import DAO.ProdutoDAO;
 import view.*;
+import bean.Produto;
+import bean.Estoque;
+import bean.Compra;
 
 
 public class CompraDeProdutoCadastro extends javax.swing.JFrame {
@@ -14,7 +19,7 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
 
     private void atualizarValorTotal(){
        double preco  = Double.parseDouble(txtPreco.getText()); //converte o texto da caixa para caber na variavel double
-       int quantidade = Integer.parseInt(txtQuantidade.getText()); 
+       int quantidade = Integer.parseInt(txtFornecedorCodigo.getText()); 
        double valorTotal = preco * quantidade; //calcula o valor de preço e quantidade
        txtValorTotal.setText(String.format("%.2f", valorTotal)); //converte para o formato desejado de no máximo duas casas decimais e coloca no campo de valor total
        
@@ -33,7 +38,7 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
         btnComprar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtNome = new javax.swing.JTextField();
+        txtNomeProduto = new javax.swing.JTextField();
         txtCodigo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtNomeFornecedor = new javax.swing.JTextField();
@@ -45,8 +50,8 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
         txtPreco = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtCodigoFornecedor = new javax.swing.JTextField();
         txtQuantidade = new javax.swing.JTextField();
+        txtFornecedorCodigo = new javax.swing.JTextField();
         txtDescricao = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtValorTotal = new javax.swing.JTextField();
@@ -110,7 +115,7 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Nome:");
 
-        txtNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNomeProduto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtCodigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
@@ -150,20 +155,20 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Nome:");
 
-        txtCodigoFornecedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoFornecedorActionPerformed(evt);
-            }
-        });
-        txtCodigoFornecedor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCodigoFornecedorKeyReleased(evt);
-            }
-        });
-
         txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtQuantidadeActionPerformed(evt);
+            }
+        });
+        txtQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtQuantidadeKeyReleased(evt);
+            }
+        });
+
+        txtFornecedorCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFornecedorCodigoActionPerformed(evt);
             }
         });
 
@@ -204,7 +209,7 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
                                             .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
                                                 .addGap(5, 5, 5)
-                                                .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(txtFornecedorCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(26, 26, 26)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -227,11 +232,11 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCodigoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(43, 43, 43)
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -258,14 +263,14 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(txtCodigoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -280,7 +285,7 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
                         .addGap(35, 35, 35))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9)
-                        .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFornecedorCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10)
                         .addComponent(txtNomeFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14)
@@ -303,13 +308,13 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
        
     }//GEN-LAST:event_txtValorTotalActionPerformed
 
+    private void txtFornecedorCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFornecedorCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFornecedorCodigoActionPerformed
+
     private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtQuantidadeActionPerformed
-
-    private void txtCodigoFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoFornecedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoFornecedorActionPerformed
 
     private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
         // TODO add your handling code here:
@@ -329,12 +334,65 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
         atualizarValorTotal();
     }//GEN-LAST:event_txtPrecoKeyReleased
 
-    private void txtCodigoFornecedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoFornecedorKeyReleased
+    private void txtQuantidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantidadeKeyReleased
         atualizarValorTotal();
-    }//GEN-LAST:event_txtCodigoFornecedorKeyReleased
+    }//GEN-LAST:event_txtQuantidadeKeyReleased
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        
+                                                 
+    try {
+        // Ler dados da tela
+        String nomeProduto = txtNomeProduto.getText();
+        double preco = Double.parseDouble(txtPreco.getText());
+        int quantidade = Integer.parseInt(txtQuantidade.getText()); 
+        String descricao = txtDescricao.getText();
+        int idFornecedor = Integer.parseInt(txtFornecedorCodigo.getText());
+
+        double valorTotal = preco * quantidade;
+
+        // Criar objeto Produto
+        Produto produto = new Produto();
+        produto.setNome(nomeProduto);
+        produto.setPreco(preco);
+        produto.setDescricao(descricao);
+        produto.setFornecedor(idFornecedor);
+
+        // Inserir produto e recuperar o ID gerado
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        int idProduto = produtoDAO.inserirERetornarID(produto);
+
+        // Criar registro de compra
+        Compra compra = new Compra();
+        compra.setIdProduto(idProduto);
+        compra.setIdFornecedor(idFornecedor);
+        compra.setPrecoUnitario(preco);
+        compra.setQuantidade(quantidade);
+        compra.setValorTotal(valorTotal);
+
+        CompraDAO compraDAO = new CompraDAO();
+        compraDAO.inserirCompra(compra);
+
+        // Atualizar estoque
+        EstoqueDAO estoqueDAO = new EstoqueDAO();
+        estoqueDAO.adicionarEstoque(idProduto, quantidade);
+
+        // Mensagem de sucesso e limpar campos
+        JOptionPane.showMessageDialog(this, "Compra registrada com sucesso!");
+
+        txtNomeProduto.setText("");
+        txtPreco.setText("");
+        txtQuantidade.setText("");
+        txtDescricao.setText("");
+        txtFornecedorCodigo.setText("");
+        txtValorTotal.setText("");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao registrar compra: " + e.getMessage());
+    }
+}
+
+
     }//GEN-LAST:event_btnComprarActionPerformed
 
     /**
@@ -647,10 +705,10 @@ public class CompraDeProdutoCadastro extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtCodigoFornecedor;
     private javax.swing.JTextField txtDescricao;
-    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtFornecedorCodigo;
     private javax.swing.JTextField txtNomeFornecedor;
+    private javax.swing.JTextField txtNomeProduto;
     private javax.swing.JTextField txtPreco;
     private javax.swing.JTextField txtQuantidade;
     private javax.swing.JTextField txtValorTotal;

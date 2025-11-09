@@ -10,13 +10,14 @@ public class ProdutoDAO {
 
     
     public void inserir(Produto p) throws SQLException{ //método de Inserir produtos na tabela
-        String sql = "INSERT INTO cliente(id_produto,nome,valor,descricao) VALUES (?, ? ,?, ?)";
+        String sql = "INSERT INTO cliente(id_produto,nome,valor,descricao,id_fornecedor) VALUES (?, ? ,?, ?,?)";
         Connection con= ConnectionFactory.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, p.getId_produto());
         stmt.setString(2, p.getNome());
         stmt.setDouble(1, p.getPreco());
         stmt.setString(3, p.getDescricao());
+        stmt.setInt(4,p.getFornecedor());
         
         stmt.executeUpdate();
         con.close();
