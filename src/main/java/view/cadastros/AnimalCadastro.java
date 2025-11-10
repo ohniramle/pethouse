@@ -251,11 +251,12 @@ public class AnimalCadastro extends javax.swing.JFrame {
         return this.animalId;
       }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-         try {
-               
+        
+        try {
+             
         // criar objeto Animal
             Animal animal = new Animal();
-            
+            AnimalDAO dao = new AnimalDAO();
             animal.setNome(txtNome.getText());
             animal.setSexo(cmbSexo.getSelectedItem().toString());
             animal.setEspecie(cmbEspecie.getSelectedItem().toString());
@@ -264,13 +265,29 @@ public class AnimalCadastro extends javax.swing.JFrame {
             animal.setPorte(cmbPorte.getSelectedItem().toString());
             //pegar valor do combo box de cliente
             String nomeCliente = cmbClientes.getSelectedItem().toString();
-            int idCliente = new ClienteDAO().buscarIdPorNome(nomeCliente); //busca pelo nome do cliente
-            animal.setIdCliente(idCliente);
-            // insere no banco
-            AnimalDAO dao = new AnimalDAO();
-            dao.inserir(animal);
-
-             JOptionPane.showMessageDialog(null, "Animal cadastrado com sucesso!");
+            
+            if(animalId==null){ //verifica se animal existe ou é novo no banco
+                int idCliente = new ClienteDAO().buscarIdPorNome(nomeCliente); //busca pelo nome do cliente
+                animal.setIdCliente(idCliente); //seta o codigo relacionado ao nome
+                // insere no banco
+                dao.inserir(animal);
+                JOptionPane.showMessageDialog(null, "Animal cadastrado com sucesso!");
+                 txtNome.setText("");
+                 txtDataNascimento.setText("");
+                 txtPeso.setText("");
+                 
+            }else{ //senao for novo ele somente edita
+                cmbClientes.setEnabled(false);
+                animal.setIdAnimal(animalId);
+                dao.atualizar(animal);
+                int idCliente = new ClienteDAO().buscarIdPorNome(nomeCliente); //busca pelo nome do cliente
+                animal.setIdCliente(idCliente); //seta o codigo relacionado ao nome
+                JOptionPane.showMessageDialog(null, "Animal editado com sucesso!");
+                 txtNome.setText("");
+                 txtDataNascimento.setText("");
+                 txtPeso.setText("");      
+                
+            }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + e.getMessage());
         }

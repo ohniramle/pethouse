@@ -206,7 +206,7 @@ public class Animais extends javax.swing.JFrame {
         
         //2) se nao tiver nenhuma linha , avisa o usuário
         if (linha<0){
-            JOptionPane.showMessageDialog(null, "Selecione um cliente para excluir!");
+            JOptionPane.showMessageDialog(null, "Selecione um animal para excluir!");
         }else{
         
         //3) confirmação antes de excluir
@@ -220,10 +220,10 @@ public class Animais extends javax.swing.JFrame {
                 AnimalDAO dao = new AnimalDAO();
                 dao.excluir(id);
 
-                //6)remove também a linha que o cliente estava para limpar a tabela
+                //6)remove também a linha que o animal estava para limpar a tabela
                 tabelaAnimal.removeRow(linha);
 
-                JOptionPane.showMessageDialog(null,"Cliente excluído com sucesso");
+                JOptionPane.showMessageDialog(null,"Animal excluído com sucesso");
             }
         }
 
@@ -242,7 +242,7 @@ public class Animais extends javax.swing.JFrame {
             a = new AnimalCadastro();
             a.setVisible(true); //abre a tela de Cadastro de animal
              this.dispose(); //fecha a tela atual de Animais
-        } catch (Exception ex) {
+        } catch (Exception ex) {  
             Logger.getLogger(Animais.class.getName()).log(Level.SEVERE, null, ex); //mensagem caso ocorra erro
         }
         

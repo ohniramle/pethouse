@@ -32,11 +32,37 @@ public class AnimalDAO {
             stmt.setString(6, animal.getPorte());
             stmt.setInt(7, animal.getIdCliente());
             
+            
             stmt.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar animal: " + e.getMessage());
+        }
+    }
+    //método para atualizar dados no banco
+     public void atualizar(Animal animal) {
+        String sql = "UPDATE animal SET nome = ?, data_nascimento = ?, sexo = ?, especie= ?, peso = ?, porte = ? WHERE id_animal = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            
+            stmt.setString(1, animal.getNome());
+            stmt.setString(2, animal.getDataNascimento());
+            stmt.setString(3, animal.getSexo());
+            stmt.setString(4, animal.getEspecie());
+            stmt.setDouble(5, animal.getPeso());
+            stmt.setString(6, animal.getPorte());
+            stmt.setInt(7, animal.getIdAnimal());
+           
+
+            stmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
         }
     }
     

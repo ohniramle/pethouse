@@ -132,28 +132,9 @@ public class ClienteDAO {
            e.printStackTrace();
        }
    }
-   public Cliente buscarPorNome(String nome) {
-    Cliente cliente = null;
-    String sql = "SELECT id_cliente, nome, cpf FROM cliente WHERE nome = ?";
-
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, nome);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                cliente = new Cliente();
-                cliente.setId_cliente(rs.getInt("idcliente"));
-                cliente.setNome(rs.getString("nome"));
-                cliente.setCPF(rs.getString("cpf"));
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar cliente: " + e.getMessage());
-        }
-        return cliente;
-        }
+  
+   
+        //buscar o ID por nome
         public int buscarIdPorNome(String nomeCliente) throws Exception {
         Connection con = ConnectionFactory.getConnection();
         String sql = "SELECT id_cliente FROM cliente WHERE nome = ?";
