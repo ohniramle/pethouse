@@ -338,17 +338,16 @@ public class ClienteCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
     
     //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
-        public void preencherCampos (Cliente cliente){
-            if(cliente!=null){
-                txtCPF.setText(String.valueOf(cliente.getCPF()));
-                txtNome.setText(String.valueOf(cliente.getNome()));
-                txtEmail.setText(String.valueOf(cliente.getEmail()));
-                txtDataNascimento.setText(String.valueOf(cliente.getDataNascimento()));
-                cmbSexo.setSelectedItem(cliente.getSexo());
-                txtCEP.setText(String.valueOf(cliente.getCEP()));
-                txtEndereco.setText(String.valueOf(cliente.getEndereco()));
-                txtTelefone.setText(String.valueOf(cliente.getTelefone()));
-                
+        public void preencherCampos(Cliente cliente) {
+        if (cliente != null) {
+            txtCPF.setText(cliente.getCPF());
+            txtNome.setText(cliente.getNome());
+            txtEmail.setText(cliente.getEmail());
+            txtDataNascimento.setText(cliente.getDataNascimento());
+            cmbSexo.setSelectedItem(cliente.getSexo());
+            txtCEP.setText(cliente.getCEP());
+            txtEndereco.setText(cliente.getEndereco());
+            txtTelefone.setText(cliente.getTelefone());
             }
         }
         

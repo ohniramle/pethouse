@@ -80,7 +80,7 @@ public class Agendamento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Agendamento", "Data", "Horario", "Serviço", "Cliente", "Funcionario"
+                "Agendamento", "Data", "Horario", "Serviço", "Cliente", "Funcionario", "STATUS"
             }
         ));
         jScrollPane1.setViewportView(tblAgendamento);
@@ -115,23 +115,23 @@ public class Agendamento extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
+                        .addGap(67, 67, 67)
                         .addComponent(btnExcluir)
                         .addGap(18, 18, 18)
                         .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAdicionar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnMarcar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPesquisa)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnPesquisar)))))
                 .addContainerGap(41, Short.MAX_VALUE))
         );

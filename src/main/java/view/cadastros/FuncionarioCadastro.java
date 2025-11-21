@@ -3,15 +3,15 @@ package view.cadastros;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import view.*;
-import bean.Cliente;
-import DAO.ClienteDAO;
+import bean.Funcionario;
+import DAO.FuncionarioDAO;
 import javax.swing.table.DefaultTableModel;
-import view.Clientes;
+import view.Funcionarios;
 
 
 public class FuncionarioCadastro extends javax.swing.JFrame {
     //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserido um novo no banco
-    private Integer clienteId = null;
+    private Integer funcionarioId  = null;
     
     public FuncionarioCadastro() {
         initComponents();
@@ -244,11 +244,11 @@ public class FuncionarioCadastro extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11)
-                        .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -306,63 +306,71 @@ public class FuncionarioCadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCPFActionPerformed
 
-    public void setClienteId(Integer id) {
-    this.clienteId = id;
+    public void setFuncionarioId(Integer id) {
+    this.funcionarioId = id;
     }
 
-    public Integer getClienteId() {
-    return this.clienteId;
+    public Integer getFuncionarioId() {
+    return this.funcionarioId;
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
-        try{
+       try{
+
+            Funcionario funcionario = new Funcionario(); // instancia a classe Funcionario do pacote bean
             
-            Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
-            cliente.setCPF(txtCPF.getText());
-            cliente.setNome(txtNome.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setDataNascimento(txtDataNascimento.getText());
-            cliente.setSexo(cmbSexo.getSelectedItem().toString());
-            cliente.setCEP(txtCEP.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            
-            ClienteDAO dao = new ClienteDAO();
-            if (clienteId == null) {
-                dao.inserir(cliente);  // Novo cliente
-                 JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
-                 txtCPF.setText("");
-                 txtNome.setText("");
-                 txtEmail.setText("");
-                 txtDataNascimento.setText("");
-                 txtCEP.setText("");
-                 txtEndereco.setText("");
-                 txtTelefone.setText("");
-            } else {
-                cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
-                dao.atualizar(cliente);    // Atualiza no banco
-                 dao.inserir(cliente); 
-                JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
-                 txtCPF.setText("");
-                 txtNome.setText("");
-                 txtEmail.setText("");
-                 txtDataNascimento.setText("");
-                 txtCEP.setText("");
-                 txtEndereco.setText("");
-                 txtTelefone.setText("");
+            funcionario.setRegistro(txtRegistro.getText());
+            funcionario.setCPF(txtCPF.getText());       // pega o valor da caixa de texto e seta na classe bean funcionario
+            funcionario.setNome(txtNome.getText());
+            funcionario.setEmail(txtEmail.getText());
+            funcionario.setDataNascimento(txtDataNascimento.getText());
+            funcionario.setSexo(cmbSexo.getSelectedItem().toString());
+            funcionario.setCEP(txtCEP.getText());
+            funcionario.setEndereco(txtEndereco.getText());
+            funcionario.setTelefone(txtTelefone.getText());
+
+            // instancia a classe FuncionarioDAO que conecta no banco de dados
+            FuncionarioDAO dao = new FuncionarioDAO();
+
+            if (funcionarioId == null) { // se o ID do funcionário for nulo → cadastro novo
+                dao.inserir(funcionario);
+                JOptionPane.showMessageDialog(this, "Funcionário salvo com sucesso!");
+
+                // limpa campos
                 
-            }   
-           
-           
-      
-            
-        }catch(Exception e){
-           e.printStackTrace();
-           JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+                txtRegistro.setText("");
+                txtCPF.setText("");
+                txtNome.setText("");
+                txtEmail.setText("");
+                txtDataNascimento.setText("");
+                txtCEP.setText("");
+                txtEndereco.setText("");
+                txtTelefone.setText("");
+
+            } else { // senão  edita funcionário existente
+                funcionario.setId_funcionario(funcionarioId);
+                dao.atualizar(funcionario);
+                JOptionPane.showMessageDialog(this, "Funcionário editado com sucesso!");
+
+                // limpa campos
+                txtRegistro.setText("");
+                txtCPF.setText("");
+                txtNome.setText("");
+                txtEmail.setText("");
+                txtDataNascimento.setText("");
+                txtCEP.setText("");
+                txtEndereco.setText("");
+                txtTelefone.setText("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
         }
-        
-        Clientes c = new Clientes();
-        c.setVisible(true);
+
+        // volta para a tela de listagem de funcionários
+        Funcionarios f = new Funcionarios();
+        f.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -375,17 +383,17 @@ public class FuncionarioCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbSexoActionPerformed
     
     //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
-        public void preencherCampos (Cliente cliente){
-            if(cliente!=null){
-                txtCPF.setText(String.valueOf(cliente.getCPF()));
-                txtNome.setText(String.valueOf(cliente.getNome()));
-                txtEmail.setText(String.valueOf(cliente.getEmail()));
-                txtDataNascimento.setText(String.valueOf(cliente.getDataNascimento()));
-                cmbSexo.setSelectedItem(cliente.getSexo());
-                txtCEP.setText(String.valueOf(cliente.getCEP()));
-                txtEndereco.setText(String.valueOf(cliente.getEndereco()));
-                txtTelefone.setText(String.valueOf(cliente.getTelefone()));
-                
+        public void preencherCampos (Funcionario func){
+            if(func!=null){
+                txtRegistro.setText(func.getRegistro());
+                txtCPF.setText(func.getCPF());
+                txtNome.setText(func.getNome());
+                txtEmail.setText(func.getEmail());
+                txtDataNascimento.setText(func.getDataNascimento());
+                cmbSexo.setSelectedItem(func.getSexo());
+                txtCEP.setText(func.getCEP());
+                txtEndereco.setText(func.getEndereco());
+                txtTelefone.setText(func.getTelefone());
             }
         }
         

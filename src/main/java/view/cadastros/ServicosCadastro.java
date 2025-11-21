@@ -217,8 +217,8 @@ public class ServicosCadastro extends javax.swing.JFrame {
    //Método que recebe Servico Bean e preenche os campos de texto quando o usuário quer editar algum serviço existente
     public void preencherCampos (Servico s){
             if(s!=null){
-                txtNome.setText(String.valueOf(s.getNome()));
-                txtDescricao.setText(String.valueOf(s.getDescricao()));
+                txtNome.setText(s.getNome());
+                txtDescricao.setText(s.getDescricao());
                 txtPreco.setText(String.valueOf(s.getPreco()));
                 
             }

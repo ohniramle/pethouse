@@ -301,19 +301,19 @@ public class Clientes extends javax.swing.JFrame {
         //obtém o modelo de dados da tabela Jtable
         DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
-        TableRowSorter<DefaultTableModel> sorter  = new TableRowSorter<>(modelo);
+        TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<>(modelo);
         //define que a JTable vai usar filtros do sorter
-        tblClientes.setRowSorter(sorter);
+        tblClientes.setRowSorter(filtro);
         
         //verifica  se o campo de pesquisa está vazio 
         if(texto.trim().length()==0){
             //se tiver vazio remove o filtro para aparecer todos os registros
-            sorter.setRowFilter(null);
+            filtro.setRowFilter(null);
         }else{
             //aplica o filtro
             //faz a comparação dos caracteres da tabela
             // e o (?i) ignora maiúscula/minúscula 
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
         }
         
         

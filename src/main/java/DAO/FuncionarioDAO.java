@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 //classe repsonsável por conectar Funcionário Bean no banco de dados com métodos para manipulação e utilização dos dados
-public class FuncionárioDAO {
+public class FuncionarioDAO {
      public void inserir(Funcionario f) throws SQLException{ //método de Inserir Funcionários na tabela
-        String sql = "INSERT INTO funcinario(registro, cpf,nome,email,data_nascimento,sexo,cep,endereco,telefone) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcionario(registro, cpf,nome,email,data_nascimento,sexo,cep,endereco,telefone) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?)";
         Connection con= ConnectionFactory.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setString(1, f.getRegistro());
@@ -33,7 +33,7 @@ public class FuncionárioDAO {
     }
     
     public void atualizar(Funcionario func) {
-    String sql = "UPDATE func SET registro = ? , cpf = ?, nome = ?, email = ?, data_nascimento = ?, sexo = ?, cep = ?, endereco = ?, telefone = ? WHERE id_cliente = ?";
+    String sql = "UPDATE funcionario SET registro = ? , cpf = ?, nome = ?, email = ?, data_nascimento = ?, sexo = ?, cep = ?, endereco = ?, telefone = ? WHERE id_funcionario = ?";
     
     try (Connection conn = ConnectionFactory.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -91,7 +91,7 @@ public class FuncionárioDAO {
        Funcionario f = null;
        try{
            Connection con = ConnectionFactory.getConnection();
-           PreparedStatement stmt = con.prepareStatement("SELECT * FROM  cliente WHERE id_cliente= ?");
+           PreparedStatement stmt = con.prepareStatement("SELECT * FROM  funcionario WHERE id_funcionario= ?");
            stmt.setInt(1,id); // Substitui o "?" pelo valor do parâmetro id recebido no método
            ResultSet rs=stmt.executeQuery();
            
