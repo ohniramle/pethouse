@@ -188,7 +188,7 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        //DefaultTableModel tabelaCliente = (DefaultTableModel) tblClientes.getModel();
+      
         //1) pega a linha selecionada
         int linha = tblClientes.getSelectedRow();
         
@@ -285,11 +285,10 @@ public class Clientes extends javax.swing.JFrame {
         ClienteDAO dao = new ClienteDAO();
         Cliente cliente  = dao.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o cliente exato
 
-        ClienteCadastro telaCadastro = new ClienteCadastro (); //instancia a tela inicial
+        ClienteCadastro telaCadastro = new ClienteCadastro (); //instancia a tela de cadastro
         
        telaCadastro.setClienteId(cliente.getId_cliente()); //muda o valor da variável ID no método da tela de cadastro de clientes pegando o valor do cliente selecionado atual 
         telaCadastro.preencherCampos(cliente); //utiliza o método de preencher para todos os dados do cliente irem para os TextFields
-        dao.excluir(id); //exclui para evitar duplicidade de clientes
         telaCadastro.setVisible(true);
        }
     }//GEN-LAST:event_btnEditarActionPerformed

@@ -1,6 +1,16 @@
 
 package view;
 
+import DAO.ClienteDAO;
+import DAO.ServicoDAO;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import view.cadastros.ServicosCadastro;
+import bean.Servico;
+import java.util.List;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+
 
 public class Servicos extends javax.swing.JFrame {
 
@@ -8,7 +18,7 @@ public class Servicos extends javax.swing.JFrame {
     public Servicos() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        AtualizarPagina();
     }
 
     
@@ -100,6 +110,11 @@ public class Servicos extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("Adicionar");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +124,11 @@ public class Servicos extends javax.swing.JFrame {
         });
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Pesquise:");
 
@@ -163,24 +183,121 @@ public class Servicos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        Compras compra = new Compras(); //instancia tela inicial como objeto para uso
-        compra.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Produtos
+        TelaInicial tela = new TelaInicial(); //instancia a tela inicial em objeto
+        tela.setVisible(true); //coloca a visibilidade da tela como verdadeira para abri-la
+        this.dispose(); //fecha a tela atual
         
        
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-       
+      
+        //1) pega a linha selecionada
+        int linha = tblServico.getSelectedRow();
+        
+        //2) se nao tiver nenhuma linha , avisa o usuário
+        if (linha<0){
+            JOptionPane.showMessageDialog(null, "Selecione um serviço para excluir!");
+        }else{
+        
+        //3) confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(this,"Tem certeza que deseja excluir esse serviço?","Confirmação",
+                        JOptionPane.YES_NO_OPTION); //Caixa de mensagem SIM OU NÃO
+            if(confirmacao == JOptionPane.YES_OPTION){ //se confirmação for sim
+                //4)Pega  o id  do cliente  na tabela
+               DefaultTableModel tabelaServico = (DefaultTableModel) tblServico.getModel();
+                int id  = Integer.parseInt(tabelaServico.getValueAt(linha,0).toString());
+                //5 Chama o DAO para excluir no banco 
+                ServicoDAO dao = new ServicoDAO();
+                dao.excluirServico(id);
+
+                //6)remove também a linha que o cliente estava para limpar a tabela
+                tabelaServico.removeRow(linha);
+
+                JOptionPane.showMessageDialog(null,"Serviço excluído com sucesso");
+            }
+        }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        Compras compra = new Compras(); //instancia tela inicial como objeto para uso
-        compra.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Produtos
+        ServicosCadastro servico = new ServicosCadastro(); //instancia a tela de cadastro em objeto
+        servico.setVisible(true); //coloca a visibilidade da tela como verdadeira para abri-la
+        this.dispose(); //fecha a tela atual
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        DefaultTableModel tblServicos = (DefaultTableModel) tblServico.getModel(); // pega modelo da tabela
+        int linha = tblServico.getSelectedRow();//guarda a linha selecionada da tabela na variavel inteira
+        if(linha<0){ 
+           //se a quantidade de linha for menor que zero ele manda a mensagem
+            JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
+       }
+       else{
+           //senão , guarda na variável id o valor do código do serviço
+           int id = Integer.parseInt(tblServicos.getValueAt(linha, 0).toString());
+       
+
+        //Usa o DAO para buscar o cliente no banco de dados
+        ServicoDAO dao = new ServicoDAO();
+        Servico servico  = dao.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o cliente exato
+
+        ServicosCadastro telaCadastro = new ServicosCadastro(); //instancia a tela de cadastro
+        
+       telaCadastro.setIdServico(servico.getId_servico()); /* muda o valor da variável ID no método da tela de cadastro de
+                                                            servico pegando o valor do serviço selecionado atual */
+        telaCadastro.preencherCampos(servico); //utiliza o método de preencher para todos os dados do serviço irem para os TextFields
+        telaCadastro.setVisible(true);
+        this.dispose();
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        //recupera o texto digtado na aba de pesquisa
+        String texto = txtPesquisa.getText();
+        //obtém o modelo de dados da tabela Jtable
+        DefaultTableModel modelo = (DefaultTableModel) tblServico.getModel();
+        //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
+        TableRowSorter<DefaultTableModel> filtro  = new TableRowSorter<>(modelo);
+        //define que a JTable vai usar filtros do sorter
+        tblServico.setRowSorter(filtro);
+        
+        //verifica  se o campo de pesquisa está vazio 
+        if(texto.trim().length()==0){
+            //se tiver vazio remove o filtro para aparecer todos os registros
+            filtro.setRowFilter(null);
+        }else{
+            //aplica o filtro
+            //faz a comparação dos caracteres da tabela
+            // e o (?i) ignora maiúscula/minúscula 
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    //atualiza tabela de serviços a cada uso
+    private void AtualizarPagina(){
+          try{
+        ServicoDAO dao = new ServicoDAO(); //instancia a classe DAO
+        List<Servico> lista = dao.listarTodos(); //cria uma lista utilizando o método listarTodos do DAO
+       DefaultTableModel tabelaServico = (DefaultTableModel) tblServico.getModel(); //instancia uma tabela referenciando a JTable na interface
+        tabelaServico.setRowCount(0); // limpa linhas
+        
+        for(Servico s : lista){ //for para percorrer a lista criada
+            tabelaServico.addRow(new Object[] { //adiciona cada dado em suas linhas na tabela especificamente na ordem 
+                
+                s.getId_servico(),
+                s.getNome(),
+                s.getDescricao(),
+                s.getPreco()
+                
+            });
+        }
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

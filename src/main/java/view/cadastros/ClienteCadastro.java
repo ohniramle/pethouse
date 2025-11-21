@@ -10,7 +10,7 @@ import view.Clientes;
 
 
 public class ClienteCadastro extends javax.swing.JFrame {
-    //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserido um novo no banco
+    //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserir um novo no banco
     private Integer clienteId = null;
     
     public ClienteCadastro() {
@@ -283,12 +283,14 @@ public class ClienteCadastro extends javax.swing.JFrame {
     public Integer getClienteId() {
     return this.clienteId;
     }
+    
+    //Método para cadastrar clientes ao clicar no botão "Cadastrar"
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
         try{
             
             Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
-            cliente.setCPF(txtCPF.getText());
+            cliente.setCPF(txtCPF.getText()); //pega o valor da caixa de texto e seta na classe bean cliente
             cliente.setNome(txtNome.getText());
             cliente.setEmail(txtEmail.getText());
             cliente.setDataNascimento(txtDataNascimento.getText());
@@ -297,11 +299,12 @@ public class ClienteCadastro extends javax.swing.JFrame {
             cliente.setEndereco(txtEndereco.getText());
             cliente.setTelefone(txtTelefone.getText());
             
+            //instancia a classe Cliente que conecta no banco de dados
             ClienteDAO dao = new ClienteDAO();
-            if (clienteId == null) {
-                dao.inserir(cliente);  // Novo cliente
-                 JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
-                 txtCPF.setText("");
+            if (clienteId == null) { //se o ID do cliente for nulo
+                dao.inserir(cliente);  // Insere novo cliente
+                 JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!"); 
+                 txtCPF.setText(""); //seta as caixas de texto para vazio assim que insere um cliente
                  txtNome.setText("");
                  txtEmail.setText("");
                  txtDataNascimento.setText("");
@@ -310,8 +313,7 @@ public class ClienteCadastro extends javax.swing.JFrame {
                  txtTelefone.setText("");
             } else {
                 cliente.setId_cliente(clienteId);  // Usa o ID que foi passado
-                dao.atualizar(cliente);    // Atualiza no banco
-                 dao.inserir(cliente); 
+                dao.atualizar(cliente);    // Atualiza no banco 
                 JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
                  txtCPF.setText("");
                  txtNome.setText("");
@@ -323,8 +325,7 @@ public class ClienteCadastro extends javax.swing.JFrame {
                 
             }   
            
-           
-      
+            
             
         }catch(Exception e){
            e.printStackTrace();

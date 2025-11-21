@@ -28,7 +28,7 @@ public class ClienteDAO {
     }
     
     public void atualizar(Cliente cliente) {
-    String sql = "UPDATE clientes SET cpf = ?, nome = ?, email = ?, data_nascimento = ?, sexo = ?, cep = ?, endereco = ?, telefone = ? WHERE id = ?";
+    String sql = "UPDATE cliente SET cpf = ?, nome = ?, email = ?, data_nascimento = ?, sexo = ?, cep = ?, endereco = ?, telefone = ? WHERE id_cliente = ?";
     
     try (Connection conn = ConnectionFactory.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -48,7 +48,7 @@ public class ClienteDAO {
         
     } catch (SQLException e) {
         
-        e.printStackTrace();
+        e.printStackTrace(); //resultado do erro
     }
 }
     //Lista que lista todos os clientes
@@ -94,7 +94,6 @@ public class ClienteDAO {
                cliente.setId_cliente(rs.getInt("id_cliente"));
                cliente.setCPF(rs.getString("cpf"));
                cliente.setNome(rs.getString("nome"));
-               cliente.setNome(rs.getString("nome"));
                cliente.setEmail(rs.getString("email"));
                cliente.setDataNascimento(rs.getString("data_nascimento"));
                cliente.setSexo(rs.getString("sexo"));
@@ -103,7 +102,7 @@ public class ClienteDAO {
                cliente.setTelefone(rs.getString("telefone"));
                
            }
-           //Fecha os recursos para evitar gasto de memória desnecessário
+           //fecha a conexão para evitar gasto de memória desnecessário
            rs.close();
            stmt.close();
            con.close();

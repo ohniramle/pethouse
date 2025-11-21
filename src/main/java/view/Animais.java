@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import view.cadastros.AnimalCadastro;
 import bean.Animal;
 import bean.AnimalCliente;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 
 public class Animais extends javax.swing.JFrame {
@@ -112,6 +114,11 @@ public class Animais extends javax.swing.JFrame {
         });
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Pesquise:");
 
@@ -271,6 +278,29 @@ public class Animais extends javax.swing.JFrame {
         telaCadastro.setVisible(true);
        }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+       //recupera o texto digtado na aba de pesquisa
+        String texto = txtPesquisa.getText();
+        //obtém o modelo de dados da tabela Jtable
+        DefaultTableModel modelo = (DefaultTableModel) tblAnimal.getModel();
+        //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
+        TableRowSorter<DefaultTableModel> filtro  = new TableRowSorter<>(modelo);
+        //define que a JTable vai usar filtros do sorter
+        tblAnimal.setRowSorter(filtro);
+        
+        //verifica  se o campo de pesquisa está vazio 
+        if(texto.trim().length()==0){
+            //se tiver vazio remove o filtro para aparecer todos os registros
+            filtro.setRowFilter(null);
+        }else{
+            //aplica o filtro
+            //faz a comparação dos caracteres da tabela
+            // e o (?i) ignora maiúscula/minúscula 
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
+        }
+        
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
      * @param args the command line arguments

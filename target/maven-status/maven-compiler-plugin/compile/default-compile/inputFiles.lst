@@ -17,6 +17,7 @@ C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\Animais.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\DAO\LoginDAO.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\cadastros\ServicosCadastro.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\Produtos.java
+C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\bean\Servico.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\cadastros\ClienteCadastro.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\Estoque.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\DAO\ClienteDAO.java
@@ -34,6 +35,7 @@ C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\Agendamento.
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\Funcionarios.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\cadastros\EstoqueCadastro.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\cadastros\RelatorioCadastro.java
+C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\DAO\ServicoDAO.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\DAO\ProdutoEstoqueDAO.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\view\cadastros\VendaCadastro.java
 C:\Users\let\Documents\NetBeansProjects\PetHouse\src\main\java\DAO\AnimalClienteDAO.java

@@ -10,6 +10,7 @@ bean\AnimalCliente.class
 view\Vendas$3.class
 view\Estoque$4.class
 DAO\ProdutoEstoqueDAO.class
+view\Servicos$6.class
 view\cadastros\ClienteCadastro.class
 view\cadastros\FuncionarioCadastro$3.class
 view\Servicos.class
@@ -34,6 +35,7 @@ view\cadastros\ClienteCadastro$4.class
 view\cadastros\ServicosCadastro.class
 view\Animais$2.class
 view\cadastros\RelatorioCadastro$2.class
+bean\Servico.class
 DAO\AnimalDAO.class
 DAO\ProdutoDAO.class
 view\cadastros\CompraDeProdutoCadastro$7.class
@@ -41,6 +43,7 @@ view\TelaInicial$1.class
 view\cadastros\RelatorioCadastro.class
 bean\Compra.class
 view\Produtos$6.class
+view\Servicos$7.class
 view\Funcionarios$2.class
 view\cadastros\ServicosCadastro$4.class
 view\Relatorios$1.class
@@ -50,6 +53,7 @@ view\Servicos$1.class
 view\cadastros\FuncionarioCadastro$2.class
 view\Compras$5.class
 view\cadastros\CompraDeProdutoCadastro.class
+DAO\ServicoDAO.class
 view\Funcionarios$3.class
 view\cadastros\RelatorioCadastro$1.class
 view\cadastros\FuncionarioCadastro$1.class
@@ -118,6 +122,7 @@ view\Login$3.class
 view\Estoque$2.class
 view\Funcionarios.class
 view\cadastros\CompraDeProdutoCadastro$3.class
+view\Animais$6.class
 view\cadastros\EstoqueCadastro$1.class
 view\Clientes$1.class
 view\TelaInicial$4.class

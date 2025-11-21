@@ -203,7 +203,9 @@ public class TelaInicial extends javax.swing.JFrame {
                  this.setVisible(false);
             break;
              case "Serviços":
-                 this.setVisible(false);
+                 Servicos servicos = new Servicos();
+                 servicos.setVisible(true);
+                 this.dispose();
             break;
              case "Vendas":
                  Vendas ve = new Vendas();

@@ -1,17 +1,20 @@
 
 package view.cadastros;
+import DAO.ServicoDAO;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import view.*;
-import bean.Cliente;
-import DAO.ClienteDAO;
+import bean.Servico;
 import javax.swing.table.DefaultTableModel;
-import view.Clientes;
+
 
 
 public class ServicosCadastro extends javax.swing.JFrame {
-    //variável criada para guardar o ID do cliente. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar um cliente existente ou inserido um novo no banco
-    private Integer clienteId = null;
+    
+    
+    /* variável criada para guardar o ID do serviço. Útil na hora de se usar a mesma tela de cadastro e fazer o sistema saber que vai editar 
+    um serviço existente ou inserido um novo no banco */
+    private Integer servicoId = null;
     
     public ServicosCadastro() {
         initComponents();
@@ -178,37 +181,68 @@ public class ServicosCadastro extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
-        
-
-            Cliente cliente = new Cliente(); //instancia a classe Cliente do pacote bean
+        try{
+            Servico servico = new Servico(); //instancia a classe Serviço no pacote Bean
+            servico.setNome(txtNome.getText()); //pega o valor da caixa de texto e seta na classe bean Serviço
+            servico.setDescricao(txtDescricao.getText());
+            servico.setPreco(Double.parseDouble(txtPreco.getText()));
             
-            cliente.setNome(txtNome.getText());
- 
-
+            //instancia a classe ServicoDAO que conecta ao banco de dados
+            ServicoDAO dao = new ServicoDAO ();
+            if(servicoId == null){
+                dao.inserirServico(servico);
+                JOptionPane.showMessageDialog(this, "Serviço salvo com sucesso!"); 
+                  txtNome.setText(""); //limpa as caixas de texto
+                  txtDescricao.setText("");
+                  txtPreco.setText("");     
+            }else{
+                servico.setId_servico(servicoId);
+                dao.atualizarServico(servico);
+                 JOptionPane.showMessageDialog(this, "Serviço salvo com sucesso!"); 
+                  txtNome.setText(""); //limpa as caixas de texto
+                  txtDescricao.setText("");
+                  txtPreco.setText("");  
+            }
+        }catch(Exception e){ //mensagem de erro padrão
+              e.printStackTrace();
+           JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        }
+        
+        this.dispose();
+        Servicos servico = new Servicos();
+        servico.setVisible(true);
+    
            
     }//GEN-LAST:event_btnCadastrarActionPerformed
-
+   //Método que recebe Servico Bean e preenche os campos de texto quando o usuário quer editar algum serviço existente
+    public void preencherCampos (Servico s){
+            if(s!=null){
+                txtNome.setText(String.valueOf(s.getNome()));
+                txtDescricao.setText(String.valueOf(s.getDescricao()));
+                txtPreco.setText(String.valueOf(s.getPreco()));
+                
+            }
+    }
+    
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        Clientes cl = new Clientes(); //instancia tela inicial como objeto para uso
-        cl.setVisible(true); // Isso quer dizer que a tela inicial de Cliente é chamada para ficar visivel novamente
-        this.dispose(); //fecha ClienteCadastro
+        Servicos servico = new Servicos(); //instancia a tela de serviço em objeto
+        servico.setVisible(true); //coloca a visibilidade da tela como verdadeira para abri-la
+        this.dispose(); //fecha a tela atual
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescricaoActionPerformed
 
-    public void setClienteId(Integer id) {
-    this.clienteId = id;
+    public void setIdServico(Integer id) {
+    this.servicoId = id;
     }
 
-    public Integer getClienteId() {
-    return this.clienteId;
+    public Integer getIdServico() {
+    return this.servicoId;
     }    
-    //Método que recebe Cliente e preenche os campos de texto quando o usuário quer editar algum cliente existente
-        public void preencherCampos (Cliente cliente){
-            
-        }
+    
+        
         
     /**
      * @param args the command line arguments
