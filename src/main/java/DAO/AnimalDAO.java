@@ -121,7 +121,7 @@ public class AnimalDAO {
        return animal;
    }
     
-    // Método para buscar animais de um animal específico
+    // Método para buscar animais de um cliente específico
     public List<Animal> listarPorCliente(int idCliente) {
         List<Animal> lista = new ArrayList<>();
         String sql = "SELECT * FROM animal WHERE id_cliente = ?";

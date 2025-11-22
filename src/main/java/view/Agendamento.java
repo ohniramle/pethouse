@@ -1,6 +1,9 @@
 
 package view;
 
+import DAO.AgendamentoDAO;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import view.cadastros.AgendamentoCadastro;
 
 public class Agendamento extends javax.swing.JFrame {
@@ -26,7 +29,7 @@ public class Agendamento extends javax.swing.JFrame {
         btnExcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
-        btnMarcar = new javax.swing.JButton();
+        btnMarcarComoFeito = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -101,7 +104,12 @@ public class Agendamento extends javax.swing.JFrame {
             }
         });
 
-        btnMarcar.setText("Marcar como feito");
+        btnMarcarComoFeito.setText("Marcar como feito");
+        btnMarcarComoFeito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarComoFeitoActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
 
@@ -122,7 +130,7 @@ public class Agendamento extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAdicionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnMarcar))
+                        .addComponent(btnMarcarComoFeito))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -151,7 +159,7 @@ public class Agendamento extends javax.swing.JFrame {
                     .addComponent(btnExcluir)
                     .addComponent(btnEditar)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnMarcar))
+                    .addComponent(btnMarcarComoFeito))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,6 +186,37 @@ public class Agendamento extends javax.swing.JFrame {
        this.dispose();
        
     }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnMarcarComoFeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarComoFeitoActionPerformed
+        //  pegar linha selecionada
+        int linha = tblAgendamento.getSelectedRow();
+
+        if (linha < 0) {
+            JOptionPane.showMessageDialog(null, "Selecione um agendamento!");
+            return;
+        }
+
+        // pegar id da linha selecionada
+        int id = Integer.parseInt(tblAgendamento.getValueAt(linha, 0).toString());
+
+        // confirmar usando YES ou NO
+        int opc = JOptionPane.showConfirmDialog(this,
+                "Confirmar que o agendamento foi concluído?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+
+        if (opc == JOptionPane.YES_OPTION) { //pegar confirmação YES (SIM)
+
+            AgendamentoDAO dao = new AgendamentoDAO(); //Instancia dao
+            dao.marcarComoFeito(id);
+
+            // remove da tabela (some da lista)
+            DefaultTableModel modelo = (DefaultTableModel) tblAgendamento.getModel(); //pega modelo da tabela
+            modelo.removeRow(linha); //remove linha
+
+            JOptionPane.showMessageDialog(null, "Agendamento marcado como concluído!");
+         }
+    }//GEN-LAST:event_btnMarcarComoFeitoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,7 +288,7 @@ public class Agendamento extends javax.swing.JFrame {
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnMarcar;
+    private javax.swing.JButton btnMarcarComoFeito;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
