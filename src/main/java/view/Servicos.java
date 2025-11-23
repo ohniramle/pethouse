@@ -183,9 +183,10 @@ public class Servicos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose(); //fecha a tela atual
         TelaInicial tela = new TelaInicial(); //instancia a tela inicial em objeto
         tela.setVisible(true); //coloca a visibilidade da tela como verdadeira para abri-la
-        this.dispose(); //fecha a tela atual
+        
         
        
     }//GEN-LAST:event_btnVoltarActionPerformed

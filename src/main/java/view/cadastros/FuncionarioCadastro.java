@@ -296,9 +296,10 @@ public class FuncionarioCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        Clientes cl = new Clientes(); //instancia tela inicial como objeto para uso
-        cl.setVisible(true); // Isso quer dizer que a tela inicial de Cliente é chamada para ficar visivel novamente
-        this.dispose(); //fecha ClienteCadastro
+        this.dispose(); //fecha FuncionarioCadastro
+        Funcionarios f = new Funcionarios(); //instancia tela inicial como objeto para uso
+       f.setVisible(true); // Isso quer dizer que a tela inicial de Funcionário é chamada para ficar visivel novamente
+        
        
     }//GEN-LAST:event_btnVoltarActionPerformed
 

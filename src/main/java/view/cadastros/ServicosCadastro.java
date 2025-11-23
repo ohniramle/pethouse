@@ -225,9 +225,10 @@ public class ServicosCadastro extends javax.swing.JFrame {
     }
     
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose(); //fecha a tela atual
         Servicos servico = new Servicos(); //instancia a tela de serviço em objeto
         servico.setVisible(true); //coloca a visibilidade da tela como verdadeira para abri-la
-        this.dispose(); //fecha a tela atual
+        
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed

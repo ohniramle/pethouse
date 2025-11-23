@@ -162,7 +162,7 @@ public class TelaInicial extends javax.swing.JFrame {
         String selecionaOpcao = cmbTelaInicial.getSelectedItem().toString(); //converte a opção da JComboBox em String
         switch (selecionaOpcao){ //seleciona o caminho para a tela específica de acordo com a opção escolhida
             case "Agendamento":
-                Agendamento ag = new Agendamento(); //instancia o objeto
+                Agendamentos ag = new Agendamentos(); //instancia o objeto
                 ag.setVisible(true);                //usa o objeto da interface para colocar como vísivel
                 this.setVisible(false);             // fecha a tela inicial e deixa somente agendamento
                break;

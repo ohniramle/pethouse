@@ -93,6 +93,9 @@ public class Funcionario {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-   
+   @Override
+    public String toString() {
+        return this.nome; 
+    }
     
 }

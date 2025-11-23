@@ -91,6 +91,9 @@ public class Animal {
         this.idCliente = idCliente;
     }
     
-    
-    
+    //utilizado para colocar os nomes dos animais na combobox
+    @Override
+    public String toString() {
+        return this.nome; 
+    }
 }

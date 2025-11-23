@@ -25,7 +25,6 @@ public class Produtos extends javax.swing.JFrame {
         tblProdutos = new javax.swing.JTable();
         btnExcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        btnAdicionar = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -114,13 +113,6 @@ public class Produtos extends javax.swing.JFrame {
 
         btnEditar.setText("Editar");
 
-        btnAdicionar.setText("Adicionar");
-        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdicionarActionPerformed(evt);
-            }
-        });
-
         btnPesquisar.setText("Pesquisar");
 
         jLabel3.setText("Pesquise:");
@@ -133,12 +125,10 @@ public class Produtos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
+                        .addGap(168, 168, 168)
                         .addComponent(btnExcluir)
-                        .addGap(50, 50, 50)
-                        .addComponent(btnEditar)
                         .addGap(61, 61, 61)
-                        .addComponent(btnAdicionar))
+                        .addComponent(btnEditar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,8 +155,7 @@ public class Produtos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluir)
-                    .addComponent(btnEditar)
-                    .addComponent(btnAdicionar))
+                    .addComponent(btnEditar))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -193,12 +182,6 @@ public class Produtos extends javax.swing.JFrame {
         estoque.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEstoqueActionPerformed
-
-    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        Compras compra = new Compras(); //instancia tela inicial como objeto para uso
-        compra.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Produtos
-    }//GEN-LAST:event_btnAdicionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -491,7 +474,6 @@ public class Produtos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEstoque;
     private javax.swing.JButton btnExcluir;

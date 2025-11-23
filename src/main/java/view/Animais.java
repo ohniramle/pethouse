@@ -94,7 +94,7 @@ public class Animais extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Animal", "Nome", "Dono", "Cpf"
+                "ID", "Animal", "Dono", "CPF Dono"
             }
         ));
         jScrollPane1.setViewportView(tblAnimal);
@@ -237,9 +237,10 @@ public class Animais extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose(); //fecha Animal
         TelaInicial tela = new TelaInicial(); //instancia tela inicial como objeto para uso
         tela.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Animais
+        
 
     }//GEN-LAST:event_btnVoltarActionPerformed
     //botão de adicionar um novo animal no sistema

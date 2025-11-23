@@ -8,9 +8,13 @@ public class Agendamento {
     private String hora;
     private String status;
     private Cliente cliente;
+    private String nomeCliente;
     private Funcionario funcionario;
+    private String nomeFuncionario;
     private Servico servico;
+    private String nomeServico;
     private Animal animal;
+    private String nomeAnimal;
 
     public int getId_agendamento() {
         return id_agendamento;
@@ -75,6 +79,39 @@ public class Agendamento {
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
+    }
+
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
+    }
+
+    public String getNomeServico() {
+        return nomeServico;
+    }
+
+    public void setNomeServico(String nomeServico) {
+        this.nomeServico = nomeServico;
+    }
+
+    public String getNomeAnimal() {
+        return nomeAnimal;
+    }
+
+    public void setNomeAnimal(String nomeAnimal) {
+        this.nomeAnimal = nomeAnimal;
+    }
+    
     
     
     

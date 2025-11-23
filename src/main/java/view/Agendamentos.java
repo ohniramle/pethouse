@@ -2,17 +2,24 @@
 package view;
 
 import DAO.AgendamentoDAO;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import view.cadastros.AgendamentoCadastro;
+import bean.Agendamento;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
-public class Agendamento extends javax.swing.JFrame {
+
+public class Agendamentos extends javax.swing.JFrame {
 
     
-    public Agendamento() {
+    public Agendamentos() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        AtualizarPagina();
     }
 
     
@@ -83,7 +90,7 @@ public class Agendamento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Agendamento", "Data", "Horario", "Serviço", "Cliente", "Funcionario", "STATUS"
+                "ID", "Data", "Horario", "Serviço", "Cliente", "Animal", "Funcionario", "STATUS"
             }
         ));
         jScrollPane1.setViewportView(tblAgendamento);
@@ -96,6 +103,11 @@ public class Agendamento extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("Adicionar");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +124,11 @@ public class Agendamento extends javax.swing.JFrame {
         });
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Pesquise:");
 
@@ -133,15 +150,15 @@ public class Agendamento extends javax.swing.JFrame {
                         .addComponent(btnMarcarComoFeito))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPesquisa)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnPesquisar)))))
-                .addContainerGap(41, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPesquisar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,19 +188,81 @@ public class Agendamento extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         TelaInicial tela = new TelaInicial(); //instancia tela inicial como objeto para uso
         tela.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Agendamento
+        this.dispose(); //fecha Agendamentos
        
     }//GEN-LAST:event_btnVoltarActionPerformed
+     private void AtualizarPagina(){
+         try {
+            AgendamentoDAO dao = new AgendamentoDAO(); // instancia a classe DAO
+            List<Agendamento> lista = dao.listarTodos(); // cria uma lista utilizando o método listarTodos do DAO
+            DefaultTableModel tabelaAgendamento = (DefaultTableModel) tblAgendamento.getModel(); // tabela da interface
+            tabelaAgendamento.setRowCount(0); // limpa linhas da tabela
 
+            for (Agendamento a : lista) { // percorre a lista
+                tabelaAgendamento.addRow(new Object[] { //adiciona valores em sua respectiva linha
+                    a.getId_agendamento(),
+                    a.getData(),
+                    a.getHora(),
+                    a.getNomeServico(),
+                    a.getNomeCliente(),
+                    a.getNomeAnimal(),
+                    a.getFuncionario(),
+                    a.getStatus()
+                    
+                    
+                });
+            }
+
+       } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+        }
+    }
+     //método para excluir um agendamento
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-       
+       // Verifica se uma linha está selecionada
+    int linha = tblAgendamento.getSelectedRow();
+    if (linha == -1) {
+        JOptionPane.showMessageDialog(null, "Selecione um agendamento para excluir.");
+        return;
+    }
+
+    // Recupera o ID da coluna 0
+    int id_agendamento = Integer.parseInt(tblAgendamento.getValueAt(linha, 0).toString());
+
+    // Confirmação
+    int op = JOptionPane.showConfirmDialog(null, 
+            "Tem certeza que deseja EXCLUIR este agendamento?",
+            "Confirmar Exclusão", 
+            JOptionPane.YES_NO_OPTION);
+
+    if (op == JOptionPane.YES_OPTION) {
+
+        try {
+            AgendamentoDAO dao = new AgendamentoDAO();
+            dao.excluir(id_agendamento);
+
+            JOptionPane.showMessageDialog(null, "Agendamento excluído com sucesso!");
+
+           AtualizarPagina();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e.getMessage());
+        }
+
+     }
+    
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-       AgendamentoCadastro cadastro = new AgendamentoCadastro();
-       cadastro.setVisible(true);
-       this.dispose();
+        try {
+            AgendamentoCadastro cadastro = new AgendamentoCadastro();
+            cadastro.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Agendamentos.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
@@ -218,6 +297,65 @@ public class Agendamento extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_btnMarcarComoFeitoActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // 1) Pega a linha selecionada
+    int linha = tblAgendamento.getSelectedRow();
+
+    // 2) Se nenhuma linha foi selecionada, avisa o usuário
+    if (linha < 0) {
+        JOptionPane.showMessageDialog(this, "Selecione um agendamento para editar!");
+        return;
+    }
+
+    try {
+        // 3) Pega o ID do agendamento na tabela
+        DefaultTableModel modelo = (DefaultTableModel) tblAgendamento.getModel();
+        int id = Integer.parseInt(modelo.getValueAt(linha, 0).toString());
+
+        // 4) Busca o agendamento no banco
+        AgendamentoDAO dao = new AgendamentoDAO();
+        Agendamento ag = dao.buscarPorId(id);
+
+        // 5) Abre a tela de cadastro
+        AgendamentoCadastro tela = new AgendamentoCadastro();
+
+        // 6) Envia o ID para tela (modo EDIÇÃO)
+        tela.setAgendamentoId(ag.getId_agendamento());
+
+        // 7) Preenche todos os campos
+        tela.preencherCampos(ag);
+
+        // 8) Exibe a tela
+        tela.setVisible(true);
+
+    } catch (Exception erro) {
+        erro.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao editar: " + erro.getMessage());
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+       //recupera o texto digitado na aba de pesquisa
+        String texto = txtPesquisa.getText();
+        //obtém o modelo de dados da tabela JTable
+        DefaultTableModel modelo = (DefaultTableModel) tblAgendamento.getModel();
+        //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
+        TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<>(modelo);
+        //define que a JTable vai usar filtros do sorter
+        tblAgendamento.setRowSorter(filtro);
+
+        //verifica se o campo de pesquisa está vazio 
+        if(texto.trim().length() == 0){
+            //se tiver vazio remove o filtro para aparecer todos os registros
+            filtro.setRowFilter(null);
+        } else {
+            //aplica o filtro
+            //faz a comparação dos caracteres da tabela
+            //e o (?i) ignora maiúscula/minúscula 
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -235,14 +373,46 @@ public class Agendamento extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Agendamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agendamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Agendamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agendamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Agendamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agendamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Agendamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Agendamentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -279,7 +449,7 @@ public class Agendamento extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Agendamento().setVisible(true);
+                new Agendamentos().setVisible(true);
             }
         });
     }

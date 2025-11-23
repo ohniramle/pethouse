@@ -265,9 +265,10 @@ public class ClienteCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose(); //fecha ClienteCadastro
         Clientes cl = new Clientes(); //instancia tela inicial como objeto para uso
         cl.setVisible(true); // Isso quer dizer que a tela inicial de Cliente é chamada para ficar visivel novamente
-        this.dispose(); //fecha ClienteCadastro
+        
        
     }//GEN-LAST:event_btnVoltarActionPerformed
 

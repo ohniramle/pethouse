@@ -217,7 +217,7 @@ public class VendaCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        Agendamento ag = new Agendamento(); //instancia tela inicial como objeto para uso
+        Agendamentos ag = new Agendamentos(); //instancia tela inicial como objeto para uso
         ag.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
         this.dispose(); //fecha AgendamentoCadastro
        
