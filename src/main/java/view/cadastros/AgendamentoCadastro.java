@@ -284,8 +284,7 @@ public class AgendamentoCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
     //método para preencher campos quando for editar um agendamento existente
     public void preencherCampos(Agendamento a) {
-        
- 
+       
         txtData.setText(a.getData());
         txtHora.setText(a.getHora());
 

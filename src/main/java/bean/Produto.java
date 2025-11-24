@@ -7,11 +7,11 @@ public class Produto {
     private String nome;
     private double preco;
     private String descricao;
-    private int fornecedor;
+    private Fornecedor fornecedor;
 
     public Produto(){};
     
-    public Produto(int id_produto, String nome, double preco, String descricao,int fornecedor) {
+    public Produto(int id_produto, String nome, double preco, String descricao,Fornecedor fornecedor) {
         this.id_produto = id_produto;
         this.nome = nome;
         this.preco = preco;
@@ -19,13 +19,15 @@ public class Produto {
         this.fornecedor=fornecedor;
     }
 
-    public int getFornecedor() {
+    public Fornecedor getFornecedor() {
         return fornecedor;
     }
 
-    public void setFornecedor(int fornecedor) {
+    public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
+
+   
 
     
     
@@ -60,7 +62,11 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
+    //utilizado para mostrar nomes na tabela de compra
+    @Override
+    public String toString(){
+        return this.nome;
+    }
     
     
 

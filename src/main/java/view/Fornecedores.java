@@ -2,6 +2,16 @@
 package view;
 
 
+import DAO.FornecedorDAO;
+import bean.Fornecedor;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import view.cadastros.FornecedorCadastro;
+
+
 
 
 public class Fornecedores extends javax.swing.JFrame {
@@ -10,7 +20,7 @@ public class Fornecedores extends javax.swing.JFrame {
     public Fornecedores() {
         initComponents();
         setLocationRelativeTo(null);
-        
+         AtualizarPagina();  
     }
 
     
@@ -93,10 +103,25 @@ public class Fornecedores extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("+ Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Pesquise:");
 
@@ -106,25 +131,25 @@ public class Fornecedores extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(btnExcluir)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnEditar)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnAdicionar)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGap(92, 92, 92)
+                .addComponent(btnExcluir)
+                .addGap(43, 43, 43)
+                .addComponent(btnEditar)
+                .addGap(37, 37, 37)
+                .addComponent(btnAdicionar)
+                .addContainerGap(148, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPesquisa)
+                .addGap(18, 18, 18)
+                .addComponent(btnPesquisar)
+                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +176,31 @@ public class Fornecedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+    //1) pega a linha selecionada
+        int linha = tblFornecedores.getSelectedRow();
         
+        //2) se nao tiver nenhuma linha , avisa o usuário
+        if (linha<0){
+            JOptionPane.showMessageDialog(null, "Selecione um fornecedor para excluir!");
+        }else{
+        
+        //3) confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(this,"Tem certeza que deseja excluir esse fornecedor?","Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+            if(confirmacao == JOptionPane.YES_OPTION){
+                //4)Pega  o id  do fornecedor  na tabela
+               DefaultTableModel TabelaFornecedor = (DefaultTableModel) tblFornecedores.getModel();
+                int id  = Integer.parseInt(TabelaFornecedor.getValueAt(linha,0).toString());
+                //5 Chama o DAO para excluir no banco 
+                FornecedorDAO dao = new FornecedorDAO();
+                dao.excluirFornecedor(id);
+
+                //6)remove também a linha que o fornecedor estava para limpar a tabela
+                TabelaFornecedor.removeRow(linha);
+
+                JOptionPane.showMessageDialog(null,"Fornecedor excluído com sucesso");
+            }
+        }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -161,6 +210,93 @@ public class Fornecedores extends javax.swing.JFrame {
         this.dispose(); //fecha Fornecedores
     }//GEN-LAST:event_btnVoltarActionPerformed
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        this.dispose();
+        FornecedorCadastro f = new FornecedorCadastro();
+        f.setVisible(true);
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       DefaultTableModel tblFornecedor = (DefaultTableModel) tblFornecedores.getModel(); //pega o modelo da tabela
+       int linha  = tblFornecedores.getSelectedRow(); //guarda a linha selecionada da tabela na variavel inteira
+       if(linha<0){ 
+           //se a quantidade de linha for menor que zero ele manda a mensagem
+           JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
+       }
+       else{
+           //senão , guarda na variável id o valor do código do fornecedor
+           int id = Integer.parseInt(tblFornecedores.getValueAt(linha, 0).toString());
+       
+
+        //Usa o DAO para buscar o fornecedor no banco de dados
+        FornecedorDAO dao = new FornecedorDAO();
+        Fornecedor f  = dao.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o Fornecedor exato
+
+        FornecedorCadastro telaCadastro = new FornecedorCadastro (); //instancia a tela de cadastro
+        
+        this.dispose();
+        telaCadastro.setId(f.getId_fornecedor()); //muda o valor da variável ID no método da tela de cadastro de clientes pegando o valor do fornecedor selecionado atual 
+        telaCadastro.preencherCampos(f); //utiliza o método de preencher para todos os dados do fornecedor irem para os TextFields
+        telaCadastro.setVisible(true);
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
+    //action do botão pesquisar
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        pesquisar();
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+    
+     //atualiza tabela inicial de fornecedores a cada uso
+    private void AtualizarPagina(){
+          try{
+            FornecedorDAO dao = new FornecedorDAO(); //instancia a classe DAO
+            List<Fornecedor> lista = dao.listarFornecedores(); //cria uma lista utilizando o método listarTodos do DAO
+           DefaultTableModel tabelaCliente = (DefaultTableModel) tblFornecedores.getModel(); //instancia uma tabela referenciando a JTable na interface
+            tabelaCliente.setRowCount(0); // limpa linhas
+        
+            for(Fornecedor f : lista){ //for para percorrer a lista criada
+                tabelaCliente.addRow(new Object[] { //adiciona cada dado em suas linhas na tabela especificamente na ordem 
+
+                    f.getId_fornecedor(),
+                    f.getCnpj(),
+                    f.getNome(),
+                    f.getEmail(),
+                    f.getTelefone(),
+                    f.getCep(),
+                    f.getEndereco()
+
+
+                });
+            }
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+        }
+    }
+    //método para filtrar um fornecedor na barra de pesquisa
+      private void pesquisar(){
+        
+        //recupera o texto digtado na aba de pesquisa
+        String texto = txtPesquisa.getText();
+        //obtém o modelo de dados da tabela Jtable
+        DefaultTableModel modelo = (DefaultTableModel) tblFornecedores.getModel();
+        //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
+        TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<>(modelo);
+        //define que a JTable vai usar filtros do sorter
+        tblFornecedores.setRowSorter(filtro);
+        
+        //verifica  se o campo de pesquisa está vazio 
+        if(texto.trim().length()==0){
+            //se tiver vazio remove o filtro para aparecer todos os registros
+            filtro.setRowFilter(null);
+        }else{
+            //aplica o filtro
+            //faz a comparação dos caracteres da tabela
+            // e o (?i) ignora maiúscula/minúscula 
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
+        }
+        
+     }
     /**
      * @param args the command line arguments
      */

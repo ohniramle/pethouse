@@ -4,21 +4,32 @@ package bean;
 public class Compra {
     private int idCompra;
     private String dataCompra;
-    private int idProduto;
-    private int idFornecedor;
+    private Produto Produto;
+    private String nomeProduto;
+    private Fornecedor Fornecedor;
     private int quantidade;
     private double precoUnitario;
     private double valorTotal;
+    private String nomeFornecedor;
 
     public Compra() {
         
     }
 
-    public Compra(int idCompra, String dataCompra, int idProduto, int idFornecedor, int quantidade, double precoUnitario, double valorTotal) {
+    public String getNomeProduto() {
+        return nomeProduto;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
+
+    
+    public Compra(int idCompra, String dataCompra, Produto idProduto, Fornecedor fornecedor, int quantidade, double precoUnitario, double valorTotal) {
         this.idCompra = idCompra;
         this.dataCompra = dataCompra;
-        this.idProduto = idProduto;
-        this.idFornecedor = idFornecedor;
+        this.Produto = idProduto;
+        this.Fornecedor = fornecedor;
         this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
         this.valorTotal = valorTotal;
@@ -41,20 +52,22 @@ public class Compra {
         this.dataCompra = dataCompra;
     }
 
-    public int getIdProduto() {
-        return idProduto;
+    public Produto getProduto() {
+        return Produto;
     }
 
-    public void setIdProduto(int idProduto) {
-        this.idProduto = idProduto;
+    public void setProduto(Produto Produto) {
+        this.Produto = Produto;
     }
 
-    public int getIdFornecedor() {
-        return idFornecedor;
+   
+
+    public Fornecedor getFornecedor() {
+        return Fornecedor;
     }
 
-    public void setIdFornecedor(int idFornecedor) {
-        this.idFornecedor = idFornecedor;
+    public void setFornecedor(Fornecedor idFornecedor) {
+        this.Fornecedor = idFornecedor;
     }
 
     public int getQuantidade() {
@@ -77,8 +90,16 @@ public class Compra {
         return valorTotal;
     }
 
-    public void setValorTotal(double preco) {
+    public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getNomeFornecedor() {
+        return nomeFornecedor;
+    }
+
+    public void setNomeFornecedor(String nomeFornecedor) {
+        this.nomeFornecedor = nomeFornecedor;
     }
     
     

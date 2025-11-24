@@ -2,6 +2,7 @@
 package view;
 
 
+
 public class TelaInicial extends javax.swing.JFrame {
 
     
@@ -183,10 +184,12 @@ public class TelaInicial extends javax.swing.JFrame {
                  this.setVisible(false);
             break;
              case "Estoque":
-                 Estoque es = new Estoque();
+                 Estoques es = new Estoques();
                  es.setVisible(true);
                  break;
              case "Fornecedor":
+                Fornecedores f = new Fornecedores();
+                f.setVisible(true);
                 
                break;
              case "Funcionários":

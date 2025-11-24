@@ -94,6 +94,9 @@ public class Agendamentos extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(tblAgendamento);
+        if (tblAgendamento.getColumnModel().getColumnCount() > 0) {
+            tblAgendamento.getColumnModel().getColumn(0).setPreferredWidth(6);
+        }
 
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -298,7 +301,7 @@ public class Agendamentos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMarcarComoFeitoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // 1) Pega a linha selecionada
+     // 1) Pega a linha selecionada
     int linha = tblAgendamento.getSelectedRow();
 
     // 2) Se nenhuma linha foi selecionada, avisa o usuário

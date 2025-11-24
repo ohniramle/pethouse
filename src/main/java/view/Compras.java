@@ -1,6 +1,12 @@
 
 package view;
+import DAO.CompraDAO;
 import DAO.ProdutoDAO;
+import bean.Compra;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import view.TelaInicial;
 import view.cadastros.CompraDeProdutoCadastro;
 
 public class Compras extends javax.swing.JFrame {
@@ -9,6 +15,7 @@ public class Compras extends javax.swing.JFrame {
     public Compras() {
         initComponents();
         setLocationRelativeTo(null);
+        AtualizarPagina();
         
     }
 
@@ -24,7 +31,6 @@ public class Compras extends javax.swing.JFrame {
         btnProdutos = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCompras = new javax.swing.JTable();
-        btnExcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
@@ -90,17 +96,18 @@ public class Compras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Codigo", "Data da Compra", "Produto", "Quantidade", "Preço", "Valor Total", "Fornecedor"
+                "ID", "Data ", "Produto", "Qt", "Preço", "Total", "Fornecedor"
             }
         ));
         jScrollPane1.setViewportView(tblCompras);
-
-        btnExcluir.setText("Excluir");
-        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirActionPerformed(evt);
-            }
-        });
+        if (tblCompras.getColumnModel().getColumnCount() > 0) {
+            tblCompras.getColumnModel().getColumn(0).setPreferredWidth(4);
+            tblCompras.getColumnModel().getColumn(1).setPreferredWidth(29);
+            tblCompras.getColumnModel().getColumn(2).setPreferredWidth(30);
+            tblCompras.getColumnModel().getColumn(3).setPreferredWidth(12);
+            tblCompras.getColumnModel().getColumn(4).setPreferredWidth(12);
+            tblCompras.getColumnModel().getColumn(5).setPreferredWidth(9);
+        }
 
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -126,26 +133,22 @@ public class Compras extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(btnExcluir)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAdicionar))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPesquisar)))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addGap(196, 196, 196)
+                .addComponent(btnEditar)
+                .addGap(18, 18, 18)
+                .addComponent(btnAdicionar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPesquisa)
+                .addGap(18, 18, 18)
+                .addComponent(btnPesquisar)
+                .addGap(39, 39, 39))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +163,6 @@ public class Compras extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluir)
                     .addComponent(btnEditar)
                     .addComponent(btnAdicionar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -172,16 +174,12 @@ public class Compras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose(); //fecha Compras
         TelaInicial tela = new TelaInicial(); //instancia tela inicial como objeto para uso
         tela.setVisible(true); // Isso quer dizer que a tela inicial é chamada para ficar visivel novamente
-        this.dispose(); //fecha Compras
+        
        
     }//GEN-LAST:event_btnVoltarActionPerformed
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
-        
-    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
         Produtos produto = new Produtos();
@@ -191,21 +189,84 @@ public class Compras extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        
+        this.dispose(); //fecha Compras
         CompraDeProdutoCadastro p = new CompraDeProdutoCadastro();
         p.setVisible(true);
-        this.dispose();
+        
         
        
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    //botão usado para editar somente fornecedor, descrição e nome do produto.
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarActionPerformed
+       this.dispose(); //fecha Compras
+       
+       // Abre a tela de cadastro
+        CompraDeProdutoCadastro tela = new CompraDeProdutoCadastro();
+        tela.alterarEstadoTxt(); //método usado para desativar campo de QT e Preço para evitar fraude
+       try{ 
+        // Pega a linha selecionada
+            int linha = tblCompras.getSelectedRow();
 
-    /**
-     * @param args the command line arguments
-     */
+            // Se nenhuma linha foi selecionada, avisa o usuário
+            if (linha < 0) {
+                JOptionPane.showMessageDialog(this, "Selecione uma compra para editar!");
+                
+            }
+
+    
+         //  Pega o ID da compra na tabela
+            DefaultTableModel modelo = (DefaultTableModel) tblCompras.getModel();
+            int id = Integer.parseInt(modelo.getValueAt(linha, 0).toString());
+
+            // Busca o compra no banco
+            CompraDAO dao = new CompraDAO();
+            Compra c = dao.buscarPorId(id);
+
+           
+
+            // Envia o ID para tela (modo EDIÇÃO)
+            tela.setIdCompra(c.getIdCompra());
+
+            // Preenche todos os campos
+            tela.preencherCampos(c);
+
+            //  Exibe a tela
+            tela.setVisible(true);
+
+        } catch (Exception erro) {
+            erro.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao editar: " + erro.getMessage());
+            }
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
+    //método para atualizar página inicial de produto 
+    private void AtualizarPagina(){
+         try {
+            CompraDAO dao = new CompraDAO(); //instancia a classe DAO
+            List<Compra> lista = dao.listarTodas(); //método que lista todos os Produtos
+            DefaultTableModel tabelaProduto = (DefaultTableModel) tblCompras.getModel(); 
+            tabelaProduto.setRowCount(0); // limpa linhas
+
+            for (Compra c : lista) { 
+                tabelaProduto.addRow(new Object[] { 
+                    c.getIdCompra(),
+                    c.getDataCompra(),
+                    c.getProduto().getNome(),
+                    c.getQuantidade(),
+                    c.getPrecoUnitario(),
+                    c.getValorTotal(),
+                    c.getFornecedor().getNome()
+                   
+                  
+                });
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -304,7 +365,6 @@ public class Compras extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnProdutos;
     private javax.swing.JButton btnVoltar;

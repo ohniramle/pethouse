@@ -1,13 +1,21 @@
 
 package view;
 
-public class Estoque extends javax.swing.JFrame {
+import DAO.EstoqueDAO;
+import bean.Produto;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import view.Produtos;
+import bean.Estoque;
+import java.util.List;
+
+public class Estoques extends javax.swing.JFrame {
 
     
-    public Estoque() {
+    public Estoques() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        AtualizarPagina();
     }
 
     
@@ -21,9 +29,8 @@ public class Estoque extends javax.swing.JFrame {
         btnVoltarProdutos = new javax.swing.JButton();
         btnVoltar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblVendas = new javax.swing.JTable();
+        tblEstoque = new javax.swing.JTable();
         btnExcluir = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -82,15 +89,15 @@ public class Estoque extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tblVendas.setModel(new javax.swing.table.DefaultTableModel(
+        tblEstoque.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Codigo", "Data da Venda", "Desconto", "Cliente", "Funcionário", "Valor Total"
+                "Estoque", "ID Produto", "Produto", "Quantidade"
             }
         ));
-        jScrollPane1.setViewportView(tblVendas);
+        jScrollPane1.setViewportView(tblEstoque);
 
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -98,8 +105,6 @@ public class Estoque extends javax.swing.JFrame {
                 btnExcluirActionPerformed(evt);
             }
         });
-
-        btnEditar.setText("Editar");
 
         btnPesquisar.setText("Pesquisar");
 
@@ -113,20 +118,19 @@ public class Estoque extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(btnExcluir)
-                        .addGap(64, 64, 64)
-                        .addComponent(btnEditar))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPesquisar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtPesquisa)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPesquisar)
+                                .addGap(8, 8, 8))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(242, 242, 242)
+                        .addComponent(btnExcluir)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -141,9 +145,7 @@ public class Estoque extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnEditar))
+                .addComponent(btnExcluir)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -159,9 +161,59 @@ public class Estoque extends javax.swing.JFrame {
         
        
     }//GEN-LAST:event_btnVoltarProdutosActionPerformed
+    private void AtualizarPagina(){
+            try {
+              EstoqueDAO dao = new EstoqueDAO();
+              List<Estoque> lista = dao.listarTodos();
 
+              DefaultTableModel tabela = (DefaultTableModel) tblEstoque.getModel();
+              tabela.setRowCount(0);
+
+              for (Estoque e : lista) {
+                  tabela.addRow(new Object[] {
+                      e.getId_estoque(),
+                      e.getId_produto().getId_produto(),
+                      e.getId_produto().getNome(),
+                      e.getQuantidade()
+                  });
+              }
+
+          } catch (Exception ex) {
+              ex.printStackTrace();
+              JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+          }
+        }
+    
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        Produto produto = new Produto();
+        int id_produto = produto.getId_produto();
+        // pega a linha selecionada
+        int linha = tblEstoque.getSelectedRow();
         
+        // se nao tiver nenhuma linha , avisa o usuário
+        if (linha<0){
+            JOptionPane.showMessageDialog(null, "Selecione um sestoque para excluir!");
+        }else{
+        
+        //confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(this,"Tem certeza que deseja excluir esse estoque?","Confirmação",
+                        JOptionPane.YES_NO_OPTION); //Caixa de mensagem SIM OU NÃO
+            if(confirmacao == JOptionPane.YES_OPTION){ //se confirmação for sim
+                //Pega  o id  do produto  na tabela
+               DefaultTableModel tabelaServico = (DefaultTableModel) tblEstoque.getModel();
+                int id  = Integer.parseInt(tabelaServico.getValueAt(linha,1).toString());
+                
+                
+                //Chama o DAO para excluir no banco 
+                EstoqueDAO dao = new EstoqueDAO();
+                dao.excluirEstoquePorProduto(id);
+
+                //6)remove também a linha que o cliente estava para limpar a tabela
+                tabelaServico.removeRow(linha);
+
+                JOptionPane.showMessageDialog(null,"Estoque excluído com sucesso");
+            }
+    }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -456,13 +508,12 @@ public class Estoque extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Estoque().setVisible(true);
+                new Estoques().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnVoltar;
@@ -472,7 +523,7 @@ public class Estoque extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblVendas;
+    private javax.swing.JTable tblEstoque;
     private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
 }

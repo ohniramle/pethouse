@@ -1,5 +1,6 @@
 
 package DAO;
+import bean.Fornecedor;
 import conexao.ConnectionFactory;
 import java.util.*;
 import java.sql.*;
@@ -17,7 +18,7 @@ public class ProdutoDAO {
         stmt.setString(2, p.getNome());
         stmt.setDouble(1, p.getPreco());
         stmt.setString(3, p.getDescricao());
-        stmt.setInt(4,p.getFornecedor());
+        stmt.setInt(4,p.getFornecedor().getId_fornecedor());
         
         stmt.executeUpdate();
         con.close();
@@ -26,15 +27,17 @@ public class ProdutoDAO {
     }
     
     public void atualizar(Produto produto) {
-    String sql = "UPDATE produto SET id_produto = ?, nome = ?, preco = ?, descricao = ?";
+    String sql = "UPDATE produto SET nome = ?, preco = ?, descricao = ? WHERE id_produto = ?";
     
     try (Connection conn = ConnectionFactory.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
         
-        stmt.setInt(1, produto.getId_produto());
-        stmt.setString(2, produto.getNome());
-        stmt.setDouble(3, produto.getPreco());
-        stmt.setString(4,produto.getDescricao());
+        
+        stmt.setString(1, produto.getNome());
+        stmt.setDouble(2, produto.getPreco());
+        stmt.setString(3,produto.getDescricao());
+        stmt.setInt(4, produto.getId_produto()); 
+        
         
         stmt.executeUpdate();
         
@@ -47,7 +50,7 @@ public class ProdutoDAO {
     //Lista que lista todos os produtos
     public List<Produto> listarTodos() throws Exception {  //método de listar produto na tabela
       List<Produto> ListaProduto= new ArrayList<>(); //Cria lista de produto para armazenar no ArrayList
-      String sql = "SELECT id_produto,nome, preco, descrcao FROM produto ORDER BY id_produto";
+      String sql = "SELECT id_produto,nome, preco, descricao FROM produto ORDER BY id_produto";
       
       try(Connection c = ConnectionFactory.getConnection(); //conexão com banco de dados utilizando a classe ConnectionFactory
           PreparedStatement stmt = c.prepareStatement(sql);
@@ -82,6 +85,9 @@ public class ProdutoDAO {
                produto.setNome(rs.getString("nome"));
                produto.setPreco(rs.getDouble("preco"));
                produto.setDescricao(rs.getString("descricao"));
+               Fornecedor f = new Fornecedor();
+               f.setId_fornecedor(rs.getInt("id_fornecedor"));
+               produto.setFornecedor(f);
                
            }
            //Fecha os recursos para evitar gasto de memória desnecessário
@@ -96,23 +102,32 @@ public class ProdutoDAO {
        return produto;
    }
    
-   //Método utilizado para excluir produto
-   public void excluir (int id){
-       try{
-           Connection con  = ConnectionFactory.getConnection();
-           PreparedStatement stmt = con.prepareStatement("DELETE FROM produto  WHERE id_produto = ?");
-           // Substitui o ? pelo Id do Produto
-           stmt.setInt(1,id);
-           //executa o comando
-           stmt.executeUpdate();
-           //fecha a conexão
-           stmt.close();
-           con.close();
-           
-       }catch(Exception e){
-           e.printStackTrace();
-       }
-   }
+   //Método utilizado para excluir produto e suas foreign keys
+  public void excluir(int idProduto) {
+    String sqlEstoque = "DELETE FROM estoque WHERE id_produto=?";
+    String sqlCompra = "DELETE FROM compra WHERE id_produto=?";
+    String sqlProduto = "DELETE FROM produto WHERE id_produto=?";
+    
+    try (Connection con = ConnectionFactory.getConnection()) {
+        
+        // excluir primeiro registros dependentes
+        PreparedStatement stmtEstoque = con.prepareStatement(sqlEstoque);
+        stmtEstoque.setInt(1, idProduto);
+        stmtEstoque.executeUpdate();
+        
+        PreparedStatement stmtCompra = con.prepareStatement(sqlCompra);
+        stmtCompra.setInt(1, idProduto);
+        stmtCompra.executeUpdate();
+        
+        // agora pode excluir o produto
+        PreparedStatement stmtProduto = con.prepareStatement(sqlProduto);
+        stmtProduto.setInt(1, idProduto);
+        stmtProduto.executeUpdate();
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     // método responsável por inserir um produto no banco de dados
     // e retornar o ID gerado automaticamente (chave primária).
     public int inserirERetornarID(Produto p) throws SQLException {
@@ -132,7 +147,7 @@ public class ProdutoDAO {
         stmt.setString(1, p.getNome());          // define o nome do produto
         stmt.setDouble(2, p.getPreco());         // define o preço unitário
         stmt.setString(3, p.getDescricao());     // define a descrição do produto
-        stmt.setInt(4, p.getFornecedor());       // define o ID do fornecedor
+        stmt.setInt(4,p.getFornecedor().getId_fornecedor());    // define o ID do fornecedor
 
         // executa o comando de inserção.
         stmt.executeUpdate();
@@ -147,8 +162,34 @@ public class ProdutoDAO {
     // retorna o ID gerado para que possa ser usado em outras operações (compra, estoque, etc).
     return idGerado;
     }
+    
+    //procura um produto pelo nome
+    public Produto buscarPorNome(String nome) {
+        String sql = "SELECT * FROM produto WHERE nome = ?";
+        Produto p = null;
 
-   
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                p = new Produto();
+                p.setId_produto(rs.getInt("id_produto"));
+                p.setNome(rs.getString("nome"));
+                p.setPreco(rs.getDouble("preco"));
+                p.setDescricao(rs.getString("descricao"));
+                // se tiver id_fornecedor coloque aqui também
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return p;
+     }
+  
   
 }
 

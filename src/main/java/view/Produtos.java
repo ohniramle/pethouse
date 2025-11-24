@@ -1,6 +1,16 @@
 
 package view;
 
+import DAO.EstoqueDAO;
+import DAO.ProdutoDAO;
+import bean.Produto;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import view.cadastros.ProdutoEditar;
+
 
 public class Produtos extends javax.swing.JFrame {
 
@@ -8,6 +18,7 @@ public class Produtos extends javax.swing.JFrame {
     public Produtos() {
         initComponents();
         setLocationRelativeTo(null);
+        AtualizarPagina();
         
     }
 
@@ -112,8 +123,18 @@ public class Produtos extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Pesquise:");
 
@@ -131,14 +152,15 @@ public class Produtos extends javax.swing.JFrame {
                         .addComponent(btnEditar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPesquisar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtPesquisa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPesquisar)
+                                .addGap(9, 9, 9)))))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,16 +195,127 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-       
-        
+        //1) pega a linha selecionada
+        int linha = tblProdutos.getSelectedRow();
+
+        //2) se nao tiver nenhuma linha , avisa o usuário
+        if (linha < 0) {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para excluir!");
+        } else {
+
+            //3) confirmação antes de excluir
+            int confirmacao = JOptionPane.showConfirmDialog(
+                    this,
+                    "Tem certeza que deseja excluir esse produto?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+
+                //4) Pega o id do produto na tabela
+                DefaultTableModel tabelaProduto = (DefaultTableModel) tblProdutos.getModel();
+                int id = Integer.parseInt(tabelaProduto.getValueAt(linha, 0).toString());
+
+                //5) Chama o DAO para excluir no banco
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.excluir(id);
+                EstoqueDAO estoquedao = new EstoqueDAO();
+                estoquedao.excluirEstoquePorProduto(id);
+                
+
+                //6) remove também a linha da tabela
+                tabelaProduto.removeRow(linha);
+
+                JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!");
+            }
+
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstoqueActionPerformed
-        Estoque estoque = new Estoque ();
+        Estoques estoque = new Estoques ();
         estoque.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEstoqueActionPerformed
+     //método para filtrar um produto na barra de pesquisa
+      private void pesquisar(){
+        
+        //recupera o texto digtado na aba de pesquisa
+        String texto = txtPesquisa.getText();
+        //obtém o modelo de dados da tabela Jtable
+        DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+        //Cria um TableRowSorter baseado na JTable que permite filtrar ela 
+        TableRowSorter<DefaultTableModel> filtro = new TableRowSorter<>(modelo);
+        //define que a JTable vai usar filtros do sorter
+        tblProdutos.setRowSorter(filtro);
+        
+        //verifica  se o campo de pesquisa está vazio 
+        if(texto.trim().length()==0){
+            //se tiver vazio remove o filtro para aparecer todos os registros
+            filtro.setRowFilter(null);
+        }else{
+            //aplica o filtro
+            //faz a comparação dos caracteres da tabela
+            // e o (?i) ignora maiúscula/minúscula 
+            filtro.setRowFilter(RowFilter.regexFilter("(?i)"+texto));
+        }
+        
+    }
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        pesquisar();
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    //método para o botão editar
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       
+       int linha  = tblProdutos.getSelectedRow(); //guarda a linha selecionada da tabela na variavel inteira
+       if(linha<0){ 
+           //se a quantidade de linha for menor que zero ele manda a mensagem
+           JOptionPane.showMessageDialog(this, "SELECIONE UMA LINHA PARA EDITAR");
+       }
+       else{
+           //senão , guarda na variável id o valor do código do produto
+           int id = Integer.parseInt(tblProdutos.getValueAt(linha, 0).toString());
+       
+
+        //Usa o DAO para buscar o produto no banco de dados
+        ProdutoDAO dao = new ProdutoDAO();
+        Produto p  = dao.buscarPorId(id); //utiliiza  o método com parâmetro do id acima para procurar o produto exato
+
+           ProdutoEditar telaEdicao = new ProdutoEditar (); //instancia a tela de edição
+        
+        this.dispose();
+        telaEdicao.setId(p.getId_produto()); //muda o valor da variável ID no método da tela de cadastro de produtos pegando o valor do produto selecionado atual 
+        telaEdicao.preencherCampos(p); //utiliza o método de preencher para todos os dados do produto irem para os TextFields
+        telaEdicao.setVisible(true);
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    //método para atualizar página inicial de produto 
+    private void AtualizarPagina(){
+         try {
+            ProdutoDAO dao = new ProdutoDAO(); //instancia a classe DAO
+            List<Produto> lista = dao.listarTodos(); //método que lista todos os Produtos
+            DefaultTableModel tabelaProduto = (DefaultTableModel) tblProdutos.getModel(); 
+            tabelaProduto.setRowCount(0); // limpa linhas
+
+            for (Produto p : lista) { 
+                tabelaProduto.addRow(new Object[] { 
+
+                    p.getId_produto(),
+                    p.getNome(),
+                    p.getDescricao(),
+                    p.getPreco(),
+                  
+                });
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */

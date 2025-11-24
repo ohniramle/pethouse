@@ -7,6 +7,7 @@ public class Estoque {
     private Produto id_produto;
     private int quantidade;
 
+    
     public int getId_estoque() {
         return id_estoque;
     }
